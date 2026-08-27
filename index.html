@@ -1,0 +1,1177 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>منصة تريد | المنصة الأولى لمدربي السياقة في عُمان</title>
+    
+    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;800;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        :root {
+            --primary: #8a1538;
+            --primary-dark: #5e0d24;
+            --accent: #d4af37;
+            --accent-yellow: #f59e0b;
+            --bg: #f8fafc;
+            --surface: #ffffff;
+            --text: #0f172a;
+            --muted: #64748b;
+            --border: #e2e8f0;
+            --radius: 12px;
+            --shadow: 0 4px 20px -2px rgba(15, 23, 42, 0.08);
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Tajawal', sans-serif; }
+        body { background-color: var(--bg); color: var(--text); min-height: 100vh; display: flex; flex-direction: column; }
+
+        /* Navbar & Header */
+        nav { background: var(--surface); border-bottom: 1px solid var(--border); position: sticky; top: 0; z-index: 1000; }
+        .nav-container { max-width: 1300px; margin: 0 auto; padding: 12px 20px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 15px; }
+        
+        .brand-box { display: flex; flex-direction: column; gap: 2px; }
+        .brand-logo { display: flex; align-items: center; gap: 10px; cursor: pointer; text-decoration: none; }
+        .brand-logo svg { width: 38px; height: 38px; }
+        .brand-name { font-size: 1.7rem; font-weight: 900; color: var(--primary); letter-spacing: -0.5px; }
+        .brand-desc { font-size: 0.78rem; color: var(--muted); font-weight: 600; margin-top: -2px; }
+
+        .nav-actions { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; }
+        .btn-lang { background: #e2e8f0; border: none; padding: 8px 14px; border-radius: 8px; font-weight: 700; cursor: pointer; }
+        
+        .nav-tabs { display: flex; background: #f1f5f9; padding: 4px; border-radius: 10px; gap: 4px; }
+        .tab-btn { border: none; background: transparent; padding: 8px 16px; font-size: 0.9rem; font-weight: 700; color: var(--muted); border-radius: 7px; cursor: pointer; display: flex; align-items: center; gap: 6px; }
+        .tab-btn.active { background: var(--surface); color: var(--primary); box-shadow: 0 2px 6px rgba(0,0,0,0.05); }
+
+        .user-profile-badge { display: flex; align-items: center; gap: 8px; background: #f1f5f9; padding: 6px 12px; border-radius: 30px; font-weight: bold; font-size: 0.88rem; }
+        .user-avatar-sm { width: 30px; height: 30px; border-radius: 50%; object-fit: cover; background: var(--primary); color: white; display: flex; align-items: center; justify-content: center; font-size: 0.8rem; }
+
+        /* Main Container */
+        main { max-width: 1300px; margin: 0 auto; padding: 25px 20px; flex-grow: 1; width: 100%; }
+        .tab-content { display: none; }
+        .tab-content.active { display: block; }
+
+        .verified-badge { background: #fef3c7; color: #b45309; font-size: 0.75rem; padding: 2px 8px; border-radius: 12px; font-weight: 800; border: 1px solid #fde68a; display: inline-flex; align-items: center; gap: 4px; }
+        .verified-badge i { color: var(--accent-yellow); }
+
+        /* Filters Bar */
+        .filter-card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 20px; box-shadow: var(--shadow); margin-bottom: 25px; display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 15px; }
+        .filter-control { width: 100%; padding: 10px 14px; border: 1px solid var(--border); border-radius: 8px; outline: none; background: #fafafa; font-size: 0.9rem; }
+
+        /* Modern Wilayat Chips Filter & Selection */
+        .wilayat-chips-container { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 8px; max-height: 160px; overflow-y: auto; padding: 8px; background: #f8fafc; border: 1px solid var(--border); border-radius: 8px; }
+        .chip-item { padding: 6px 14px; border: 1px solid #cbd5e1; border-radius: 20px; background: white; font-size: 0.85rem; font-weight: 700; color: #334155; cursor: pointer; transition: all 0.2s ease; user-select: none; }
+        .chip-item.selected { background: var(--primary); color: white; border-color: var(--primary); }
+        .selected-summary { margin-top: 6px; font-size: 0.82rem; font-weight: 700; color: var(--primary); }
+
+        /* Instructor Cards */
+        .grid-container { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 20px; }
+        .instructor-card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 20px; box-shadow: var(--shadow); display: flex; flex-direction: column; justify-content: space-between; transition: transform 0.2s; }
+        .instructor-card:hover { transform: translateY(-3px); }
+        .card-header { display: flex; gap: 15px; margin-bottom: 15px; }
+        .profile-img { width: 65px; height: 65px; border-radius: 50%; object-fit: cover; background: #e2e8f0; border: 2px solid var(--primary); }
+        .card-info h3 { font-size: 1.15rem; font-weight: 800; display: flex; align-items: center; gap: 6px; }
+        .card-info p { font-size: 0.85rem; color: var(--muted); margin-top: 2px; }
+
+        .info-pills { display: flex; flex-wrap: wrap; gap: 6px; margin: 12px 0; }
+        .pill { background: #f1f5f9; padding: 4px 10px; border-radius: 6px; font-size: 0.8rem; font-weight: 700; color: #334155; }
+
+        .btn-group { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 15px; }
+        .btn { padding: 10px; border-radius: 8px; border: none; font-weight: 800; cursor: pointer; text-align: center; text-decoration: none; font-size: 0.9rem; display: flex; align-items: center; justify-content: center; gap: 6px; }
+        .btn-whatsapp { background: #25D366; color: white; }
+        .btn-outline { border: 1px solid var(--primary); color: var(--primary); background: transparent; }
+
+        /* Forms & Modals */
+        .form-box { max-width: 650px; margin: 0 auto; background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 30px; box-shadow: var(--shadow); }
+        .form-group { margin-bottom: 18px; }
+        .form-group label { display: block; font-weight: 700; margin-bottom: 6px; font-size: 0.9rem; }
+        .form-control { width: 100%; padding: 12px; border: 1px solid var(--border); border-radius: 8px; font-size: 0.95rem; outline: none; background: #f8fafc; }
+        .form-control:focus { border-color: var(--primary); background: #fff; }
+        
+        .modal { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.5); z-index: 2000; justify-content: center; align-items: center; padding: 20px; }
+        .modal.active { display: flex; }
+        .modal-content { background: var(--surface); border-radius: var(--radius); max-width: 600px; width: 100%; max-height: 90vh; overflow-y: auto; padding: 25px; position: relative; }
+        .close-modal { position: absolute; left: 20px; top: 20px; font-size: 1.2rem; cursor: pointer; color: var(--muted); }
+
+        /* Professional Rating Widget */
+        .star-rating-box { display: flex; gap: 8px; direction: ltr; justify-content: center; font-size: 1.8rem; margin: 10px 0; color: #cbd5e1; }
+        .star-rating-box i { cursor: pointer; transition: color 0.15s ease; }
+        .star-rating-box i.active { color: var(--accent-yellow); }
+        .rating-badge { background: #fef3c7; color: #b45309; padding: 2px 8px; border-radius: 6px; font-weight: bold; font-size: 0.85rem; }
+
+        /* Admin Table */
+        .admin-table { width: 100%; border-collapse: collapse; margin-top: 15px; font-size: 0.85rem; }
+        .admin-table th, .admin-table td { border: 1px solid var(--border); padding: 10px; text-align: right; }
+        .admin-table th { background: #f1f5f9; font-weight: 800; }
+
+        /* Footer Styling */
+        .main-footer {
+            background: #1e293b;
+            color: #f8fafc;
+            margin-top: auto;
+            border-top: 3px solid var(--primary);
+            padding-top: 40px;
+        }
+        .footer-container {
+            max-width: 1300px;
+            margin: 0 auto;
+            padding: 0 20px 30px;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 30px;
+        }
+        .footer-logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 1.4rem;
+            font-weight: 800;
+            color: white;
+            margin-bottom: 12px;
+        }
+        .footer-desc {
+            font-size: 0.88rem;
+            color: #94a3b8;
+            line-height: 1.6;
+        }
+        .footer-section h4 {
+            color: var(--accent);
+            font-size: 1.05rem;
+            margin-bottom: 15px;
+            font-weight: 800;
+        }
+        .footer-section ul { list-style: none; }
+        .footer-section ul li { margin-bottom: 10px; }
+        .footer-section ul li a {
+            color: #cbd5e1;
+            text-decoration: none;
+            font-size: 0.88rem;
+            transition: color 0.2s;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .footer-section ul li a:hover { color: white; }
+        .footer-section.contact p {
+            font-size: 0.88rem;
+            color: #cbd5e1;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .footer-bottom {
+            background: #0f172a;
+            padding: 16px 20px;
+            border-top: 1px solid #334155;
+            font-size: 0.85rem;
+            color: #94a3b8;
+        }
+        .footer-bottom-container {
+            max-width: 1300px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+        .made-in-oman {
+            font-weight: 800;
+            color: #e2e8f0;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        @media (max-width: 768px) {
+            .nav-container { flex-direction: column; align-items: stretch; }
+            .btn-group { grid-template-columns: 1fr; }
+            .admin-table { display: block; overflow-x: auto; }
+            .footer-bottom-container { flex-direction: column; text-align: center; justify-content: center; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Navigation -->
+    <nav>
+        <div class="nav-container">
+            <div class="brand-box">
+                <a href="#" class="brand-logo">
+                    <svg viewBox="0 0 100 100">
+                        <circle cx="50" cy="50" r="45" fill="#8a1538"/>
+                        <circle cx="50" cy="50" r="35" fill="none" stroke="#d4af37" stroke-width="4"/>
+                        <circle cx="50" cy="50" r="8" fill="#d4af37"/>
+                        <line x1="50" y1="15" x2="50" y2="42" stroke="#ffffff" stroke-width="5"/>
+                        <line x1="20" y1="68" x2="43" y2="55" stroke="#ffffff" stroke-width="5"/>
+                        <line x1="80" y1="68" x2="57" y2="55" stroke="#ffffff" stroke-width="5"/>
+                    </svg>
+                    <span class="brand-name">منصة تريد</span>
+                </a>
+                <span class="brand-desc">دليلك الذكي للربط بين مدربي ومدربات السياقة والمتدربين في سلطنة عُمان</span>
+            </div>
+
+            <div class="nav-actions">
+                <button class="btn-lang" onclick="toggleLanguage()" id="langBtn">EN</button>
+                
+                <div class="nav-tabs">
+                    <button class="tab-btn active" onclick="switchTab('browseTab', this)" data-i18n="nav_browse">
+                        <i class="fa-solid fa-compass"></i> استكشاف المنصة
+                    </button>
+                    <button class="tab-btn" onclick="switchTab('registerTab', this)" id="registerTabBtn" data-i18n="nav_join">
+                        <i class="fa-solid fa-user-plus"></i> انضم كمدرب
+                    </button>
+                </div>
+
+                <div id="authNavSection">
+                    <button class="btn btn-outline" onclick="openModal('authModal')" data-i18n="btn_login">دخول / تسجيل</button>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main>
+        <!-- Tab 1: Browse Instructors -->
+        <div id="browseTab" class="tab-content active">
+            <div class="filter-card">
+                <!-- البحث بالاسم أو الهاتف -->
+                <input type="text" id="searchQuery" class="filter-control" placeholder="ابحث باسم المدرب أو رقم الهاتف..." oninput="filterInstructors()">
+                
+                <select id="filterGender" class="filter-control" onchange="filterInstructors()">
+                    <option value="">كل الجنسين</option>
+                    <option value="ذكر">ذكر</option>
+                    <option value="أنثى">أنثى</option>
+                </select>
+
+                <!-- 1. تتابع الفلترة: اختيار المحافظة أولاً -->
+                <select id="filterGov" class="filter-control" onchange="onGovFilterChange()">
+                    <option value="">جميع المحافظات</option>
+                </select>
+
+                <!-- ثم اختيار الولاية بناء على المحافظة -->
+                <select id="filterWilayat" class="filter-control" onchange="filterInstructors()">
+                    <option value="">جميع الولايات</option>
+                </select>
+
+                <!-- فلترة الجير -->
+                <select id="filterGear" class="filter-control" onchange="filterInstructors()">
+                    <option value="">كل أنواع الجير</option>
+                    <option value="أوتوماتيك">أوتوماتيك</option>
+                    <option value="عادي">عادي</option>
+                    <option value="الاثنين معاً">الاثنين معاً</option>
+                </select>
+            </div>
+
+            <div class="grid-container" id="instructorsGrid"></div>
+        </div>
+
+        <!-- Tab 2: Instructor Registration -->
+        <div id="registerTab" class="tab-content">
+            <div class="form-box">
+                <h2 style="margin-bottom: 20px; color: var(--primary);">تسجيل حساب مدرب في منصة تريد</h2>
+                <form id="instructorRegisterForm">
+                    <div class="form-group">
+                        <label>الاسم الكامل</label>
+                        <input type="text" id="regName" class="form-control" placeholder="مثال: أحمد البوسعيدي" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label>رقم الهاتف (8 أرقام يبدأ بـ 9 أو 7)</label>
+                        <input type="tel" id="regPhone" class="form-control" placeholder="9XXXXXXX أو 7XXXXXXX" required maxlength="8">
+                    </div>
+
+                    <div class="form-group">
+                        <label>كلمة السر</label>
+                        <input type="password" id="regPassword" class="form-control" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label>سؤال الأمان لاستعادة الحساب</label>
+                        <select id="regSecQ" class="form-control" required>
+                            <option value="father">من هو والدك؟</option>
+                            <option value="pet">ما اسم حيوانك المفضل؟</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label>إجابة سؤال الأمان</label>
+                        <input type="text" id="regSecA" class="form-control" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label>الجنس</label>
+                        <select id="regGender" class="form-control" required>
+                            <option value="ذكر">ذكر</option>
+                            <option value="أنثى">أنثى</option>
+                        </select>
+                    </div>
+
+                    <!-- 1. اختيار المحافظة ثم الولايات المسجلة -->
+                    <div class="form-group">
+                        <label>اختر المحافظة:</label>
+                        <select id="regGov" class="form-control" onchange="updateRegWilayatChips()">
+                            <option value="">-- اختر المحافظة لعرض ولاياتها --</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label>الولايات التي تشملها بالتأهيل والتدريب (اضغط لاختيار ولاية أو أكثر):</label>
+                        <div class="wilayat-chips-container" id="regWilayatChips"></div>
+                        <div class="selected-summary" id="regSelectedSummary"></div>
+                    </div>
+
+                    <div class="form-group">
+                        <label>نوع التدريب (الجير)</label>
+                        <select id="regGear" class="form-control" required>
+                            <option value="أوتوماتيك">أوتوماتيك</option>
+                            <option value="عادي">عادي</option>
+                            <option value="الاثنين معاً">الاثنين معاً</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label>تحديد سعر الساعة</label>
+                        <select id="regPriceOption" class="form-control" onchange="togglePriceInput(this.value, 'regPriceInput')">
+                            <option value="now">تحديد السعر الآن</option>
+                            <option value="later">تحديد السعر لاحقاً</option>
+                        </select>
+                        <input type="text" id="regPriceInput" class="form-control" style="margin-top:8px;" placeholder="مثال: 5 ر.ع / ساعة">
+                    </div>
+
+                    <div class="form-group">
+                        <label>صورة البروفايل</label>
+                        <input type="file" id="regPhoto" class="form-control" accept="image/*">
+                    </div>
+
+                    <div class="form-group">
+                        <label>وصف قصير (Bio)</label>
+                        <textarea id="regBio" class="form-control" rows="3" placeholder="اكتب نبذة عن خبرتك وساعات التغطية..."></textarea>
+                    </div>
+
+                    <button type="submit" class="btn btn-outline" style="width: 100%; background: var(--primary); color: white;">إنشاء حساب المدرب</button>
+                </form>
+            </div>
+        </div>
+
+        <!-- Tab 3: Admin Dashboard Page -->
+        <div id="adminTab" class="tab-content">
+            <h2 style="color: var(--primary); margin-bottom: 15px;">لوحة إدارة منصة تريد الشاملة</h2>
+            <div style="background: white; padding: 20px; border-radius: var(--radius); border: 1px solid var(--border);">
+                <h3>قائمة جميع المستخدمين والمدربين</h3>
+                <table class="admin-table">
+                    <thead>
+                        <tr>
+                            <th>النوع</th>
+                            <th>الاسم</th>
+                            <th>الهاتف</th>
+                            <th>كلمة السر</th>
+                            <th>التوثيق</th>
+                            <th>إجراءات</th>
+                        </tr>
+                    </thead>
+                    <tbody id="adminUsersTable"></tbody>
+                </table>
+            </div>
+        </div>
+    </main>
+
+    <!-- 2. فوتر احترافي للمنصة أسفل الصفحة -->
+    <footer class="main-footer">
+        <div class="footer-container">
+            <div class="footer-section">
+                <div class="footer-logo">
+                    <svg viewBox="0 0 100 100" width="32" height="32">
+                        <circle cx="50" cy="50" r="45" fill="#8a1538"/>
+                        <circle cx="50" cy="50" r="35" fill="none" stroke="#d4af37" stroke-width="4"/>
+                        <circle cx="50" cy="50" r="8" fill="#d4af37"/>
+                        <line x1="50" y1="15" x2="50" y2="42" stroke="#ffffff" stroke-width="5"/>
+                        <line x1="20" y1="68" x2="43" y2="55" stroke="#ffffff" stroke-width="5"/>
+                        <line x1="80" y1="68" x2="57" y2="55" stroke="#ffffff" stroke-width="5"/>
+                    </svg>
+                    <span>منصة تريد</span>
+                </div>
+                <p class="footer-desc">
+                    المنصة الأولى المعتمدة في سلطنة عُمان لتسهيل التواصل المباشر بين المتدربين ومدربي ومدربات السياقة في جميع المحافظات والولايات. نهدف لتقديم تجربة بحث ذكية وموثوقة.
+                </p>
+            </div>
+            
+            <div class="footer-section">
+                <h4>روابط سريعة</h4>
+                <ul>
+                    <li><a href="#" onclick="switchTab('browseTab')"><i class="fa-solid fa-chevron-left"></i> استكشاف المدربين</a></li>
+                    <li><a href="#" onclick="switchTab('registerTab')"><i class="fa-solid fa-chevron-left"></i> الانضمام كمدرب</a></li>
+                    <li><a href="#" onclick="openModal('authModal')"><i class="fa-solid fa-chevron-left"></i> تسجيل الدخول</a></li>
+                </ul>
+            </div>
+
+            <div class="footer-section contact">
+                <h4>الدعم والمساعدة</h4>
+                <p><i class="fa-brands fa-whatsapp" style="color:#25D366;"></i> واتساب الدعم: <a href="https://wa.me/96893307616" target="_blank" style="color: #25D366; text-decoration: none; font-weight:bold;">93307616 968+</a></p>
+                <p><i class="fa-solid fa-envelope"></i> البريد الإلكتروني: support@treed.om</p>
+                <p><i class="fa-solid fa-shield-halved"></i> آمن وموثوق 100%</p>
+            </div>
+        </div>
+
+        <div class="footer-bottom">
+            <div class="footer-bottom-container">
+                <p>© 2026 منصة تريد. جميع الحقوق محفوظة.</p>
+                <div class="made-in-oman">
+                    <span>صُنع بحب في سلطنة عُمان</span>
+                    <span style="font-size:1.1rem;">🇴🇲</span>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Modal 1: Auth (Login / Forgot) -->
+    <div class="modal" id="authModal">
+        <div class="modal-content">
+            <span class="close-modal" onclick="closeModal('authModal')">&times;</span>
+            <div id="loginBox">
+                <h3 style="margin-bottom: 15px; color: var(--primary);">تسجيل الدخول - منصة تريد</h3>
+                <div class="form-group">
+                    <label>رقم الهاتف</label>
+                    <input type="text" id="loginPhone" class="form-control" required>
+                </div>
+                <div class="form-group">
+                    <label>كلمة السر</label>
+                    <input type="password" id="loginPass" class="form-control" required>
+                </div>
+                <button class="btn btn-outline" style="width: 100%; background: var(--primary); color: white;" onclick="handleLogin()">دخول</button>
+                
+                <div style="display: flex; justify-content: space-between; margin-top: 15px; font-size: 0.85rem;">
+                    <a href="#" onclick="showForgot()" style="color: var(--primary);">نسيت كلمة السر؟</a>
+                    <a href="https://wa.me/96893307616" target="_blank" style="color: #25D366; font-weight: bold;"><i class="fa-brands fa-whatsapp"></i> الدعم الفني</a>
+                </div>
+            </div>
+
+            <div id="forgotBox" style="display: none;">
+                <h3 style="margin-bottom: 15px; color: var(--primary);">استعادة كلمة السر</h3>
+                <div class="form-group">
+                    <label>رقم الهاتف المسجل</label>
+                    <input type="text" id="recPhone" class="form-control">
+                </div>
+                <div class="form-group">
+                    <label>سؤال الأمان</label>
+                    <select id="recQ" class="form-control">
+                        <option value="father">من هو والدك؟</option>
+                        <option value="pet">ما اسم حيوانك المفضل؟</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>الإجابة</label>
+                    <input type="text" id="recA" class="form-control">
+                </div>
+                <button class="btn btn-outline" style="width: 100%; background: var(--primary); color: white;" onclick="handleRecovery()">تحقق لإظهار كلمة السر</button>
+                <button class="btn btn-outline" style="width: 100%; margin-top: 10px;" onclick="hideForgot()">إلغاء</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal 2: Instructor Profile & Reviews -->
+    <div class="modal" id="profileModal">
+        <div class="modal-content">
+            <span class="close-modal" onclick="closeModal('profileModal')">&times;</span>
+            <div id="profileDetailsView"></div>
+        </div>
+    </div>
+
+    <!-- Modal 3: Instructor Profile Editing Modal -->
+    <div class="modal" id="editProfileModal">
+        <div class="modal-content">
+            <span class="close-modal" onclick="closeModal('editProfileModal')">&times;</span>
+            <h3 style="margin-bottom: 15px; color: var(--primary);">تعديل بيانات المدرب الكاملة</h3>
+            <form id="editInstructorForm">
+                <div class="form-group">
+                    <label>الاسم الكامل</label>
+                    <input type="text" id="editName" class="form-control" required>
+                </div>
+                <div class="form-group">
+                    <label>رقم الهاتف</label>
+                    <input type="tel" id="editPhone" class="form-control" maxlength="8" required>
+                </div>
+                <div class="form-group">
+                    <label>الجنس</label>
+                    <select id="editGender" class="form-control">
+                        <option value="ذكر">ذكر</option>
+                        <option value="أنثى">أنثى</option>
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <label>اختر المحافظة:</label>
+                    <select id="editGov" class="form-control" onchange="updateEditWilayatChips()">
+                        <option value="">-- اختر المحافظة لعرض ولاياتها --</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label>الولايات التي تشملها (تحديد متعدد):</label>
+                    <div class="wilayat-chips-container" id="editWilayatChips"></div>
+                    <div class="selected-summary" id="editSelectedSummary"></div>
+                </div>
+
+                <div class="form-group">
+                    <label>نوع التدريب (الجير)</label>
+                    <select id="editGear" class="form-control">
+                        <option value="أوتوماتيك">أوتوماتيك</option>
+                        <option value="عادي">عادي</option>
+                        <option value="الاثنين معاً">الاثنين معاً</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>تحديد السعر</label>
+                    <select id="editPriceOption" class="form-control" onchange="togglePriceInput(this.value, 'editPriceInput')">
+                        <option value="now">تحديد السعر الآن</option>
+                        <option value="later">تحديد السعر لاحقاً</option>
+                    </select>
+                    <input type="text" id="editPriceInput" class="form-control" style="margin-top:8px;">
+                </div>
+                <div class="form-group">
+                    <label>نبذة / الوصف</label>
+                    <textarea id="editBio" class="form-control" rows="3"></textarea>
+                </div>
+                <button type="submit" class="btn btn-outline" style="width: 100%; background: var(--primary); color: white;">حفظ التعديلات</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Firebase Integration -->
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+        import { getDatabase, ref, push, onValue, remove, update } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-database.js";
+
+        const firebaseConfig = {
+            apiKey: "AIzaSyADHJjoGJQF1U7LCFmqh6v1GgeM9BB5BDE",
+            authDomain: "sss-c1375.firebaseapp.com",
+            databaseURL: "https://sss-c1375-default-rtdb.firebaseio.com",
+            projectId: "sss-c1375",
+            storageBucket: "sss-c1375.firebasestorage.app",
+            messagingSenderId: "873578217806",
+            appId: "1:873578217806:web:ce8e398aab964adb649e1f"
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const database = getDatabase(app);
+
+        window.db = database;
+        window.dbRefs = { ref, push, onValue, remove, update };
+        window.currentUser = null;
+        window.allInstructors = [];
+        window.allUsers = [];
+        window.selectedRating = 5;
+
+        // Firebase Watchers
+        onValue(ref(database, 'instructors'), (snapshot) => {
+            const data = snapshot.val();
+            window.allInstructors = [];
+            if(data) {
+                Object.keys(data).forEach(k => window.allInstructors.push({ id: k, ...data[k] }));
+            }
+            renderInstructorsList();
+            if(window.currentUser && window.currentUser.isAdmin) renderAdminTable();
+        });
+
+        onValue(ref(database, 'users'), (snapshot) => {
+            const data = snapshot.val();
+            window.allUsers = [];
+            if(data) {
+                Object.keys(data).forEach(k => window.allUsers.push({ id: k, ...data[k] }));
+            }
+            if(window.currentUser && window.currentUser.isAdmin) renderAdminTable();
+        });
+    </script>
+
+    <script>
+        // 1. بيانات جميع محافظات و ولايات سلطنة عُمان بالكامل
+        const omaniData = {
+            "مسقط": ["مسقط", "السيب", "بوشر", "العامرات", "مطرح", "قريات"],
+            "ظفار": ["صلالة", "طاقة", "مرباط", "رخيوت", "ثمريت", "ضلكوت", "المزيونة", "شليم وجزر الحلانيات", "سدح", "مقشن"],
+            "مسندم": ["خصب", "دبا", "بخاء", "مدحاء"],
+            "البريمي": ["البريمي", "محضة", "السنينة"],
+            "الداخلية": ["نزوى", "بهلاء", "منح", "الحمراء", "أدم", "إزكي", "سمائل", "بدبد", "الجبل الأخضر"],
+            "شمال الباطنة": ["صحار", "صحم", "الخابورة", "السويق", "لوى", "شناص"],
+            "جنوب الباطنة": ["الرستاق", "العوابي", "نخل", "وادي المعاول", "بركاء", "المصنعة"],
+            "شمال الشرقية": ["إبراء", "المضيبي", "بدية", "القابل", "وادي بني خالد", "دماء والطائيين", "سناو"],
+            "جنوب الشرقية": ["صور", "الكامل والوافي", "جعلان بني بو حسن", "جعلان بني بو علي", "مصيرة"],
+            "الظاهرة": ["عبري", "ينقل", "ضنك"],
+            "الوسطى": ["هيماء", "محوت", "الدقم", "الجازر"]
+        };
+
+        let regSelectedWilayats = new Set();
+        let editSelectedWilayats = new Set();
+
+        window.addEventListener('DOMContentLoaded', () => {
+            initGovernoratesDropdowns();
+        });
+
+        function initGovernoratesDropdowns() {
+            const govList = Object.keys(omaniData);
+            
+            // 1. فلترة الاستكشاف
+            const filterGovSelect = document.getElementById('filterGov');
+            filterGovSelect.innerHTML = '<option value="">جميع المحافظات</option>' +
+                govList.map(g => `<option value="${g}">${g}</option>`).join('');
+
+            // 2. نموذج التسجيل
+            const regGovSelect = document.getElementById('regGov');
+            regGovSelect.innerHTML = '<option value="">-- اختر المحافظة لعرض ولاياتها --</option>' +
+                govList.map(g => `<option value="${g}">${g}</option>`).join('');
+
+            // 3. نموذج التعديل
+            const editGovSelect = document.getElementById('editGov');
+            editGovSelect.innerHTML = '<option value="">-- اختر المحافظة لعرض ولاياتها --</option>' +
+                govList.map(g => `<option value="${g}">${g}</option>`).join('');
+
+            onGovFilterChange();
+            updateRegWilayatChips();
+            updateEditWilayatChips();
+        }
+
+        // عند تغيير المحافظة في الفلترة
+        function onGovFilterChange() {
+            const selectedGov = document.getElementById('filterGov').value;
+            const wilayatSelect = document.getElementById('filterWilayat');
+
+            let wilayats = [];
+            if (selectedGov && omaniData[selectedGov]) {
+                wilayats = omaniData[selectedGov];
+            } else {
+                Object.values(omaniData).forEach(arr => wilayats.push(...arr));
+            }
+
+            wilayatSelect.innerHTML = '<option value="">جميع الولايات</option>' +
+                wilayats.map(w => `<option value="${w}">${w}</option>`).join('');
+
+            filterInstructors();
+        }
+
+        // عند تغيير المحافظة في التسجيل
+        function updateRegWilayatChips() {
+            const gov = document.getElementById('regGov').value;
+            const container = document.getElementById('regWilayatChips');
+            if(!container) return;
+
+            let wilayatsToShow = [];
+            if (gov && omaniData[gov]) {
+                wilayatsToShow = omaniData[gov];
+            } else {
+                Object.values(omaniData).forEach(arr => wilayatsToShow.push(...arr));
+            }
+
+            container.innerHTML = wilayatsToShow.map(w => {
+                const isSelected = regSelectedWilayats.has(w) ? 'selected' : '';
+                return `<div class="chip-item ${isSelected}" onclick="toggleRegChip(this, '${w}')">${w}</div>`;
+            }).join('');
+
+            renderSelectedSummary('regSelectedSummary', regSelectedWilayats);
+        }
+
+        function toggleRegChip(el, value) {
+            if (regSelectedWilayats.has(value)) {
+                regSelectedWilayats.delete(value);
+                el.classList.remove('selected');
+            } else {
+                regSelectedWilayats.add(value);
+                el.classList.add('selected');
+            }
+            renderSelectedSummary('regSelectedSummary', regSelectedWilayats);
+        }
+
+        // عند تغيير المحافظة في التعديل
+        function updateEditWilayatChips() {
+            const gov = document.getElementById('editGov').value;
+            const container = document.getElementById('editWilayatChips');
+            if(!container) return;
+
+            let wilayatsToShow = [];
+            if (gov && omaniData[gov]) {
+                wilayatsToShow = omaniData[gov];
+            } else {
+                Object.values(omaniData).forEach(arr => wilayatsToShow.push(...arr));
+            }
+
+            container.innerHTML = wilayatsToShow.map(w => {
+                const isSelected = editSelectedWilayats.has(w) ? 'selected' : '';
+                return `<div class="chip-item ${isSelected}" onclick="toggleEditChip(this, '${w}')">${w}</div>`;
+            }).join('');
+
+            renderSelectedSummary('editSelectedSummary', editSelectedWilayats);
+        }
+
+        function toggleEditChip(el, value) {
+            if (editSelectedWilayats.has(value)) {
+                editSelectedWilayats.delete(value);
+                el.classList.remove('selected');
+            } else {
+                editSelectedWilayats.add(value);
+                el.classList.add('selected');
+            }
+            renderSelectedSummary('editSelectedSummary', editSelectedWilayats);
+        }
+
+        function renderSelectedSummary(elementId, setObj) {
+            const el = document.getElementById(elementId);
+            if (!el) return;
+            const arr = Array.from(setObj);
+            if (arr.length > 0) {
+                el.innerHTML = `الولايات المختارة (${arr.length}): ${arr.join(' ، ')}`;
+            } else {
+                el.innerHTML = 'لم يتم اختيار أي ولاية بعد.';
+            }
+        }
+
+        function togglePriceInput(optionValue, inputId) {
+            const input = document.getElementById(inputId);
+            if(optionValue === 'later') {
+                input.value = "السعر لاحقاً";
+                input.style.display = "none";
+            } else {
+                input.style.display = "block";
+                if(input.value === "السعر لاحقاً") input.value = "";
+            }
+        }
+
+        function switchTab(tabId, btn) {
+            document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
+            document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+            document.getElementById(tabId).classList.add('active');
+            if(btn) btn.classList.add('active');
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        function openModal(id) { document.getElementById(id).classList.add('active'); }
+        function closeModal(id) { document.getElementById(id).classList.remove('active'); }
+
+        function showForgot() { document.getElementById('loginBox').style.display = 'none'; document.getElementById('forgotBox').style.display = 'block'; }
+        function hideForgot() { document.getElementById('forgotBox').style.display = 'none'; document.getElementById('loginBox').style.display = 'block'; }
+
+        // التحقق من رقم الهاتف العُماني (8 أرقام يبدأ بـ 9 أو 7)
+        function validateOmaniPhone(phone) {
+            const regex = /^[79]\d{7}$/;
+            return regex.test(phone);
+        }
+
+        // تسجيل الدخول
+        function handleLogin() {
+            const phone = document.getElementById('loginPhone').value.trim();
+            const pass = document.getElementById('loginPass').value.trim();
+
+            if (phone === "13" && pass === "10") {
+                window.currentUser = { name: "المدير العام", phone: "13", isAdmin: true };
+                updateUserUI();
+                closeModal('authModal');
+                switchTab('adminTab');
+                renderAdminTable();
+                alert("مرحباً بك في لوحة تحكم أدمن منصة تريد!");
+                return;
+            }
+
+            let user = window.allInstructors.find(i => i.phone === phone && i.password === pass) ||
+                       window.allUsers.find(u => u.phone === phone && u.password === pass);
+
+            if (user) {
+                window.currentUser = user;
+                updateUserUI();
+                closeModal('authModal');
+                alert(`أهلاً بك مجدداً ${user.name}`);
+            } else {
+                alert("رقم الهاتف أو كلمة السر غير صحيحة!");
+            }
+        }
+
+        function updateUserUI() {
+            const container = document.getElementById('authNavSection');
+            if (window.currentUser) {
+                const isInstructor = !window.currentUser.isAdmin;
+                container.innerHTML = `
+                    <div class="user-profile-badge">
+                        <div class="user-avatar-sm">${window.currentUser.name[0]}</div>
+                        <span>${window.currentUser.name}</span>
+                        ${isInstructor ? `<button onclick="openEditProfileModal()" class="btn-outline" style="padding:2px 8px; font-size:0.75rem; border-radius:12px; margin-right:4px;"><i class="fa-solid fa-pen-to-square"></i> تعديل بياناتي</button>` : ''}
+                        <button onclick="logout()" style="border:none; background:transparent; color:red; cursor:pointer; margin-right:5px;"><i class="fa-solid fa-power-off"></i></button>
+                    </div>
+                `;
+            } else {
+                container.innerHTML = `<button class="btn btn-outline" onclick="openModal('authModal')">دخول / تسجيل</button>`;
+            }
+        }
+
+        function logout() {
+            window.currentUser = null;
+            updateUserUI();
+            switchTab('browseTab');
+        }
+
+        // استعادة كلمة السر
+        function handleRecovery() {
+            const phone = document.getElementById('recPhone').value.trim();
+            const q = document.getElementById('recQ').value;
+            const a = document.getElementById('recA').value.trim().toLowerCase();
+
+            let account = window.allInstructors.find(i => i.phone === phone) || window.allUsers.find(u => u.phone === phone);
+
+            if (account && account.secQ === q && account.secA.toLowerCase() === a) {
+                alert(`كلمة السر الخاصة بحسابك هي: (${account.password})`);
+                hideForgot();
+            } else {
+                alert("البيانات غير مطابقة للحل المسجل!");
+            }
+        }
+
+        // تسجيل مدرب جديد
+        document.getElementById('instructorRegisterForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+
+            const phone = document.getElementById('regPhone').value.trim();
+            if (!validateOmaniPhone(phone)) {
+                alert("يرجى إدخال رقم هاتف عُماني صحيح مكون من 8 أرقام ويبدأ بـ 9 أو 7");
+                return;
+            }
+
+            const selectedWilayat = Array.from(regSelectedWilayats);
+            if(selectedWilayat.length === 0) {
+                alert("يرجى اختيار ولاية واحدة على الأقل من القائمة!");
+                return;
+            }
+
+            const priceOpt = document.getElementById('regPriceOption').value;
+            const priceVal = priceOpt === 'later' ? "السعر لاحقاً" : (document.getElementById('regPriceInput').value || "غير محدد");
+            const photoFile = document.getElementById('regPhoto').files[0];
+
+            const saveInstructor = (photoBase64) => {
+                const newInstructor = {
+                    name: document.getElementById('regName').value,
+                    phone: phone,
+                    password: document.getElementById('regPassword').value,
+                    secQ: document.getElementById('regSecQ').value,
+                    secA: document.getElementById('regSecA').value,
+                    gender: document.getElementById('regGender').value,
+                    wilayat: selectedWilayat,
+                    gear: document.getElementById('regGear').value,
+                    price: priceVal,
+                    bio: document.getElementById('regBio').value || "مدرب قيادة معتمد في منصة تريد",
+                    photo: photoBase64 || "",
+                    isVerified: false,
+                    reviews: []
+                };
+
+                const { ref, push } = window.dbRefs;
+                push(ref(window.db, 'instructors'), newInstructor).then(() => {
+                    alert("تم إنشاء حسابك في منصة تريد بنجاح!");
+                    document.getElementById('instructorRegisterForm').reset();
+                    regSelectedWilayats.clear();
+                    updateRegWilayatChips();
+                    switchTab('browseTab');
+                });
+            };
+
+            if (photoFile) {
+                const reader = new FileReader();
+                reader.onload = (event) => saveInstructor(event.target.result);
+                reader.readAsDataURL(photoFile);
+            } else {
+                saveInstructor("");
+            }
+        });
+
+        // فتح تعديل البروفايل للمدرب
+        window.openEditProfileModal = function() {
+            if(!window.currentUser) return;
+            const inst = window.allInstructors.find(i => i.id === window.currentUser.id || i.phone === window.currentUser.phone);
+            if(!inst) return;
+
+            document.getElementById('editName').value = inst.name || "";
+            document.getElementById('editPhone').value = inst.phone || "";
+            document.getElementById('editGender').value = inst.gender || "ذكر";
+            document.getElementById('editGear').value = inst.gear || "أوتوماتيك";
+            
+            if(inst.price === "السعر لاحقاً") {
+                document.getElementById('editPriceOption').value = "later";
+                togglePriceInput("later", "editPriceInput");
+            } else {
+                document.getElementById('editPriceOption').value = "now";
+                togglePriceInput("now", "editPriceInput");
+                document.getElementById('editPriceInput').value = inst.price || "";
+            }
+
+            document.getElementById('editBio').value = inst.bio || "";
+            
+            editSelectedWilayats = new Set(Array.isArray(inst.wilayat) ? inst.wilayat : [inst.wilayat]);
+            updateEditWilayatChips();
+
+            openModal('editProfileModal');
+        };
+
+        // حفظ تعديل البروفايل
+        document.getElementById('editInstructorForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            if(!window.currentUser) return;
+
+            const inst = window.allInstructors.find(i => i.id === window.currentUser.id || i.phone === window.currentUser.phone);
+            if(!inst) return;
+
+            const newPhone = document.getElementById('editPhone').value.trim();
+            if (!validateOmaniPhone(newPhone)) {
+                alert("يرجى إدخال رقم هاتف عُماني صحيح مكون من 8 أرقام ويبدأ بـ 9 أو 7");
+                return;
+            }
+
+            const selectedWilayat = Array.from(editSelectedWilayats);
+            if(selectedWilayat.length === 0) {
+                alert("يرجى اختيار ولاية واحدة على الأقل!");
+                return;
+            }
+
+            const priceOpt = document.getElementById('editPriceOption').value;
+            const priceVal = priceOpt === 'later' ? "السعر لاحقاً" : (document.getElementById('editPriceInput').value || "غير محدد");
+
+            const updatedData = {
+                name: document.getElementById('editName').value,
+                phone: newPhone,
+                gender: document.getElementById('editGender').value,
+                wilayat: selectedWilayat,
+                gear: document.getElementById('editGear').value,
+                price: priceVal,
+                bio: document.getElementById('editBio').value
+            };
+
+            const { ref, update } = window.dbRefs;
+            update(ref(window.db, `instructors/${inst.id}`), updatedData).then(() => {
+                alert("تم تحديث بياناتك بنجاح في منصة تريد!");
+                window.currentUser = { ...window.currentUser, ...updatedData };
+                updateUserUI();
+                closeModal('editProfileModal');
+            });
+        });
+
+        // عرض بطاقات المدربين
+        function renderInstructorsList() {
+            const grid = document.getElementById('instructorsGrid');
+            grid.innerHTML = "";
+
+            window.allInstructors.forEach(inst => {
+                const wilayatText = Array.isArray(inst.wilayat) ? inst.wilayat.join(' • ') : inst.wilayat;
+                const photoSrc = inst.photo || 'https://via.placeholder.com/150';
+                
+                // 3. حذف كلمة "جديد" تماماً وحساب التقييم بدقة
+                let avgStars = 0;
+                let reviewsCount = 0;
+                if(inst.reviews && Object.keys(inst.reviews).length > 0) {
+                    const revs = Object.values(inst.reviews);
+                    reviewsCount = revs.length;
+                    avgStars = (revs.reduce((a, b) => a + Number(b.stars), 0) / reviewsCount).toFixed(1);
+                }
+
+                const ratingBadge = reviewsCount > 0 
+                    ? `<span class="rating-badge"><i class="fa-solid fa-star" style="color:#f59e0b;"></i> ${avgStars} (${reviewsCount})</span>`
+                    : `<span class="rating-badge" style="background:#f1f5f9; color:#64748b;"><i class="fa-solid fa-star" style="color:#cbd5e1;"></i> 0.0</span>`;
+
+                const card = document.createElement('div');
+                card.className = 'instructor-card';
+                card.innerHTML = `
+                    <div>
+                        <div class="card-header">
+                            <img src="${photoSrc}" class="profile-img" alt="profile">
+                            <div class="card-info">
+                                <h3>
+                                    ${inst.name}
+                                    ${inst.isVerified ? '<span class="verified-badge"><i class="fa-solid fa-circle-check"></i> موثق</span>' : ''}
+                                </h3>
+                                <p><i class="fa-solid fa-venus-mars"></i> ${inst.gender} | ${ratingBadge}</p>
+                            </div>
+                        </div>
+                        <p style="font-size:0.85rem; color:#475569; margin-bottom:10px;">${inst.bio}</p>
+                        <div class="info-pills">
+                            <span class="pill"><i class="fa-solid fa-location-dot"></i> ${wilayatText}</span>
+                            <span class="pill"><i class="fa-solid fa-gears"></i> ${inst.gear}</span>
+                            <span class="pill"><i class="fa-solid fa-tag"></i> ${inst.price}</span>
+                        </div>
+                    </div>
+                    <div class="btn-group">
+                        <a href="https://wa.me/968${inst.phone}" target="_blank" class="btn btn-whatsapp"><i class="fa-brands fa-whatsapp"></i> واتساب</a>
+                        <button class="btn btn-outline" onclick="openProfileModal('${inst.id}')">الملف والتقييم</button>
+                    </div>
+                `;
+                grid.appendChild(card);
+            });
+        }
+
+        // ملف المدرب والتقييمات
+        window.openProfileModal = function(instId) {
+            const inst = window.allInstructors.find(i => i.id === instId);
+            if(!inst) return;
+
+            const photoSrc = inst.photo || 'https://via.placeholder.com/150';
+            const wilayatText = Array.isArray(inst.wilayat) ? inst.wilayat.join(' • ') : inst.wilayat;
+
+            let reviewsHTML = "";
+            if (inst.reviews) {
+                Object.values(inst.reviews).forEach(r => {
+                    const starsIcons = Array.from({length: 5}, (_, idx) => 
+                        `<i class="fa-solid fa-star" style="color: ${idx < r.stars ? '#f59e0b' : '#cbd5e1'};"></i>`
+                    ).join('');
+                    
+                    reviewsHTML += `
+                        <div style="border-bottom:1px solid #e2e8f0; padding:10px 0;">
+                            <div style="display:flex; justify-content:space-between; align-items:center;">
+                                <strong>${r.userName}</strong>
+                                <div>${starsIcons}</div>
+                            </div>
+                            <p style="font-size:0.85rem; color:#64748b; margin-top:4px;">${r.comment}</p>
+                        </div>
+                    `;
+                });
+            } else {
+                reviewsHTML = "<p style='font-size:0.85rem; color:#94a3b8;'>لا توجد تقييمات حالياً.</p>";
+            }
+
+            document.getElementById('profileDetailsView').innerHTML = `
+                <div style="text-align:center; margin-bottom:15px;">
+                    <img src="${photoSrc}" style="width:90px; height:90px; border-radius:50%; object-fit:cover;">
+                    <h2 style="margin-top:10px;">
+                        ${inst.name} 
+                        ${inst.isVerified ? '<span class="verified-badge"><i class="fa-solid fa-circle-check"></i> موثق</span>' : ''}
+                    </h2>
+                    <p style="color:var(--muted);">${inst.bio}</p>
+                </div>
+
+                <div style="background:#f8fafc; padding:12px; border-radius:8px; margin-bottom:15px; font-size:0.9rem;">
+                    <p><strong>الهاتف:</strong> ${inst.phone}</p>
+                    <p><strong>الجنس:</strong> ${inst.gender}</p>
+                    <p><strong>الولايات المشمولة:</strong> ${wilayatText}</p>
+                    <p><strong>نوع التدريب:</strong> ${inst.gear}</p>
+                    <p><strong>السعر:</strong> ${inst.price}</p>
+                </div>
+
+                <h3 style="margin-bottom:8px;">آراء وتقييمات المتدربين</h3>
+                <div style="max-height:160px; overflow-y:auto; margin-bottom:15px;">${reviewsHTML}</div>
+
+                ${window.currentUser ? `
+                    <div style="border-top:1px solid #e2e8f0; padding-top:12px;">
+                        <h4>أضف تقييمك المحترف:</h4>
+                        <div class="star-rating-box" id="interactiveStarRating">
+                            <i class="fa-solid fa-star active" data-value="1" onclick="setRating(1)"></i>
+                            <i class="fa-solid fa-star active" data-value="2" onclick="setRating(2)"></i>
+                            <i class="fa-solid fa-star active" data-value="3" onclick="setRating(3)"></i>
+                            <i class="fa-solid fa-star active" data-value="4" onclick="setRating(4)"></i>
+                            <i class="fa-solid fa-star active" data-value="5" onclick="setRating(5)"></i>
+                        </div>
+                        <textarea id="reviewComment" class="form-control" placeholder="اكتب تعليقك وانطباعك..." rows="2"></textarea>
+                        <button class="btn btn-outline" style="width:100%; margin-top:8px; background:var(--primary); color:white;" onclick="submitReview('${inst.id}')">إرسال التقييم</button>
+                    </div>
+                ` : `
+                    <p style="color:red; font-size:0.85rem; text-align:center; border-top:1px solid #eee; padding-top:10px;">
+                        يجب <a href="#" onclick="closeModal('profileModal'); openModal('authModal');">تسجيل الدخول</a> لتتمكن من إضافة تقييم.
+                    </p>
+                `}
+            `;
+            window.selectedRating = 5;
+            openModal('profileModal');
+        };
+
+        window.setRating = function(rating) {
+            window.selectedRating = rating;
+            const stars = document.querySelectorAll('#interactiveStarRating i');
+            stars.forEach((s, idx) => {
+                if(idx < rating) s.classList.add('active');
+                else s.classList.remove('active');
+            });
+        };
+
+        window.submitReview = function(instId) {
+            if(!window.currentUser) return;
+            const comment = document.getElementById('reviewComment').value.trim();
+
+            if(!comment) { alert("يرجى كتابة تعليق!"); return; }
+
+            const { ref, push } = window.dbRefs;
+            push(ref(window.db, `instructors/${instId}/reviews`), {
+                userName: window.currentUser.name,
+                stars: window.selectedRating,
+                comment: comment
+            }).then(() => {
+                alert("شكراً لك! تم نشر تقييمك في منصة تريد.");
+                openProfileModal(instId);
+            });
+        };
+
+        // الفلترة الذكية حسب المحافظة والولاية
+        function filterInstructors() {
+            const query = document.getElementById('searchQuery').value.toLowerCase().trim();
+            const gender = document.getElementById('filterGender').value;
+            const gov = document.getElementById('filterGov').value;
+            const wilayat = document.getElementById('filterWilayat').value;
+            const gear = document.getElementById('filterGear').value;
+
+            const cards = document.querySelectorAll('.instructor-card');
+            window.allInstructors.forEach((inst, idx) => {
+                const wilayatStr = Array.isArray(inst.wilayat) ? inst.wilayat.join(' ') : (inst.wilayat || '');
+                
+                const matchQuery = !query || inst.name.toLowerCase().includes(query) || inst.phone.includes(query);
+                const matchGender = !gender || inst.gender === gender;
+                
+                let matchLoc = true;
+                if (wilayat) {
+                    matchLoc = wilayatStr.includes(wilayat);
+                } else if (gov) {
+                    const govWilayats = omaniData[gov] || [];
+                    matchLoc = govWilayats.some(w => wilayatStr.includes(w));
+                }
+
+                let matchGear = true;
+                if (gear) {
+                    if (gear === "أوتوماتيك" || gear === "عادي") {
+                        matchGear = (inst.gear === gear || inst.gear === "الاثنين معاً");
+                    } else {
+                        matchGear = (inst.gear === gear);
+                    }
+                }
+
+                if (cards[idx]) {
+                    cards[idx].style.display = (matchQuery && matchGender && matchLoc && matchGear) ? "flex" : "none";
+                }
+            });
+        }
+
+        // لوحة الأدمن
+        function renderAdminTable() {
+            const tbody = document.getElementById('adminUsersTable');
+            if(!tbody) return;
+            tbody.innerHTML = "";
+
+            window.allInstructors.forEach(inst => {
+                const tr = document.createElement('tr');
+                tr.innerHTML = `
+                    <td><span style="color:blue; font-weight:bold;">مدرب</span></td>
+                    <td>${inst.name}</td>
+                    <td>${inst.phone}</td>
+                    <td style="background:#fef2f2; color:#b91c1c; font-weight:bold;">${inst.password}</td>
+                    <td>${inst.isVerified ? '<span class="verified-badge"><i class="fa-solid fa-circle-check"></i> موثق</span>' : 'غير موثق'}</td>
+                    <td>
+                        <button onclick="toggleVerify('${inst.id}', ${!inst.isVerified})" style="background:#eab308; border:none; padding:4px 8px; border-radius:4px; font-weight:bold; cursor:pointer;">
+                            ${inst.isVerified ? 'إلغاء التوثيق' : 'منح توثيق'}
+                        </button>
+                        <button onclick="deleteAccount('instructors', '${inst.id}')" style="background:#ef4444; color:white; border:none; padding:4px 8px; border-radius:4px; font-weight:bold; cursor:pointer;">حذف</button>
+                    </td>
+                `;
+                tbody.appendChild(tr);
+            });
+        }
+
+        window.toggleVerify = function(id, status) {
+            const { ref, update } = window.dbRefs;
+            update(ref(window.db, `instructors/${id}`), { isVerified: status });
+        };
+
+        window.deleteAccount = function(type, id) {
+            if(confirm("هل أنت تأكد من إزالة هذا الحساب بالكامل من منصة تريد؟")) {
+                const { ref, remove } = window.dbRefs;
+                remove(ref(window.db, `${type}/${id}`));
+            }
+        };
+    </script>
+</body>
+</html>
