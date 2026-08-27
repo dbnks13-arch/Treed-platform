@@ -1,0 +1,1550 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title data-i18n="title">منصة تريد | المنصة الأولى للخدمات المتنوعة في عُمان</title>
+    
+    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;800;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        :root {
+            --primary: #8a1538;
+            --primary-dark: #5e0d24;
+            --accent: #d4af37;
+            --accent-yellow: #f59e0b;
+            --bg: #f8fafc;
+            --surface: #ffffff;
+            --text: #0f172a;
+            --muted: #64748b;
+            --border: #e2e8f0;
+            --radius: 12px;
+            --shadow: 0 4px 20px -2px rgba(15, 23, 42, 0.08);
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Tajawal', sans-serif; }
+        body { background-color: var(--bg); color: var(--text); min-height: 100vh; display: flex; flex-direction: column; overflow-x: hidden; }
+
+        /* Navbar & Header */
+        nav { background: var(--surface); border-bottom: 1px solid var(--border); position: sticky; top: 0; z-index: 1000; }
+        .nav-container { max-width: 1300px; margin: 0 auto; padding: 12px 20px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 15px; }
+        
+        .brand-box { display: flex; flex-direction: column; gap: 2px; }
+        .brand-logo { display: flex; align-items: center; gap: 10px; cursor: pointer; text-decoration: none; }
+        .brand-logo svg { width: 38px; height: 38px; flex-shrink: 0; }
+        .brand-name { font-size: 1.7rem; font-weight: 900; color: var(--primary); letter-spacing: -0.5px; }
+        .brand-desc { font-size: 0.78rem; color: var(--muted); font-weight: 600; margin-top: -2px; }
+
+        .nav-actions { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; }
+        .btn-lang { background: #e2e8f0; border: none; padding: 8px 14px; border-radius: 8px; font-weight: 700; cursor: pointer; }
+        
+        .nav-tabs { display: flex; background: #f1f5f9; padding: 4px; border-radius: 10px; gap: 4px; flex-wrap: wrap; }
+        .tab-btn { border: none; background: transparent; padding: 8px 16px; font-size: 0.9rem; font-weight: 700; color: var(--muted); border-radius: 7px; cursor: pointer; display: flex; align-items: center; gap: 6px; }
+        .tab-btn.active { background: var(--surface); color: var(--primary); box-shadow: 0 2px 6px rgba(0,0,0,0.05); }
+
+        .user-profile-badge { display: flex; align-items: center; gap: 8px; background: #f1f5f9; padding: 6px 12px; border-radius: 30px; font-weight: bold; font-size: 0.88rem; flex-wrap: wrap; }
+        .user-avatar-sm { width: 30px; height: 30px; border-radius: 50%; object-fit: cover; background: var(--primary); color: white; display: flex; align-items: center; justify-content: center; font-size: 0.8rem; }
+
+        /* Provider Boost Promo Callout Banner */
+        .promo-boost-banner {
+            background: linear-gradient(135deg, #fffbe6 0%, #fef3c7 100%);
+            border: 2px dashed var(--accent-yellow);
+            border-radius: var(--radius);
+            padding: 12px 20px;
+            margin-bottom: 20px;
+            display: none;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: var(--shadow);
+            cursor: pointer;
+            transition: transform 0.2s;
+        }
+        .promo-boost-banner:hover { transform: scale(1.01); }
+        .promo-text { font-weight: 800; color: #92400e; font-size: 0.95rem; display: flex; align-items: center; gap: 8px; }
+        .promo-btn { background: var(--accent-yellow); color: white; padding: 6px 14px; border-radius: 20px; font-weight: bold; font-size: 0.85rem; border: none; text-decoration: none; white-space: nowrap; }
+
+        /* Ads Board Carousel Widget - مخفية افتراضياً */
+        .ads-board-wrapper { margin-bottom: 25px; text-align: center; display: none; }
+        .ads-top-link {
+            display: inline-block;
+            background: var(--primary);
+            color: white;
+            padding: 6px 16px;
+            border-radius: 20px 20px 0 0;
+            font-size: 0.88rem;
+            font-weight: 800;
+            text-decoration: none;
+            box-shadow: 0 -2px 8px rgba(0,0,0,0.1);
+        }
+        .ads-board-box {
+            width: 100%;
+            max-width: 800px;
+            height: 220px;
+            margin: 0 auto;
+            border: 3px solid var(--primary);
+            border-radius: 0 0 var(--radius) var(--radius);
+            overflow: hidden;
+            position: relative;
+            background: #000;
+            box-shadow: var(--shadow);
+            cursor: pointer;
+        }
+        .ads-board-img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: opacity 0.5s ease-in-out;
+        }
+
+        /* Service Filter Category Bar */
+        .service-categories-bar { display: flex; gap: 10px; overflow-x: auto; padding-bottom: 10px; margin-bottom: 15px; -webkit-overflow-scrolling: touch; }
+        .category-chip { background: var(--surface); border: 1px solid var(--border); padding: 10px 18px; border-radius: 30px; font-size: 0.9rem; font-weight: 700; color: var(--muted); cursor: pointer; display: flex; align-items: center; gap: 8px; white-space: nowrap; transition: all 0.2s ease; }
+        .category-chip.active { background: var(--primary); color: white; border-color: var(--primary); box-shadow: 0 4px 12px rgba(138, 21, 56, 0.2); }
+
+        /* Main Container */
+        main { max-width: 1300px; margin: 0 auto; padding: 25px 20px; flex-grow: 1; width: 100%; }
+        .tab-content { display: none; }
+        .tab-content.active { display: block; }
+
+        .verified-badge { background: #fef3c7; color: #b45309; font-size: 0.75rem; padding: 2px 8px; border-radius: 12px; font-weight: 800; border: 1px solid #fde68a; display: inline-flex; align-items: center; gap: 4px; }
+        .featured-badge { background: #dcfce7; color: #15803d; font-size: 0.75rem; padding: 2px 8px; border-radius: 12px; font-weight: 800; border: 1px solid #bbf7d0; display: inline-flex; align-items: center; gap: 4px; margin-right: 4px; }
+
+        /* Filters Bar */
+        .filter-card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 20px; box-shadow: var(--shadow); margin-bottom: 25px; display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 15px; }
+        .filter-control { width: 100%; padding: 10px 14px; border: 1px solid var(--border); border-radius: 8px; outline: none; background: #fafafa; font-size: 0.9rem; }
+
+        /* Wilayat Chips */
+        .wilayat-chips-container { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 8px; max-height: 160px; overflow-y: auto; padding: 8px; background: #f8fafc; border: 1px solid var(--border); border-radius: 8px; }
+        .chip-item { padding: 6px 14px; border: 1px solid #cbd5e1; border-radius: 20px; background: white; font-size: 0.85rem; font-weight: 700; color: #334155; cursor: pointer; transition: all 0.2s ease; user-select: none; }
+        .chip-item.selected { background: var(--primary); color: white; border-color: var(--primary); }
+        .selected-summary { margin-top: 6px; font-size: 0.82rem; font-weight: 700; color: var(--primary); }
+
+        /* Provider Cards Layout */
+        .grid-container { display: grid; grid-template-columns: repeat(auto-fill, minmax(290px, 1fr)); gap: 20px; }
+        .provider-card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 20px; box-shadow: var(--shadow); display: flex; flex-direction: column; justify-content: space-between; transition: transform 0.2s; position: relative; }
+        .provider-card.boosted-card { border: 2px solid var(--accent-yellow); background: #fffdf5; }
+        .provider-card:hover { transform: translateY(-3px); }
+        
+        .card-header { display: flex; gap: 15px; margin-bottom: 12px; align-items: flex-start; }
+        .profile-img { width: 85px; height: 85px; border-radius: 12px; object-fit: cover; background: #e2e8f0; border: 2px solid var(--primary); flex-shrink: 0; }
+        .card-info { flex-grow: 1; }
+        .card-info h3 { font-size: 1.1rem; font-weight: 800; display: flex; align-items: center; gap: 6px; flex-wrap: wrap; }
+        .card-info p { font-size: 0.85rem; color: var(--muted); margin-top: 2px; }
+
+        .service-badge { background: #e0f2fe; color: #0369a1; font-size: 0.78rem; padding: 4px 10px; border-radius: 6px; font-weight: 800; display: inline-block; margin-bottom: 8px; }
+
+        .info-pills { display: flex; flex-wrap: wrap; gap: 6px; margin: 12px 0; }
+        .pill { background: #f1f5f9; padding: 4px 10px; border-radius: 6px; font-size: 0.8rem; font-weight: 700; color: #334155; }
+
+        .btn-group { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 15px; }
+        .btn { padding: 10px; border-radius: 8px; border: none; font-weight: 800; cursor: pointer; text-align: center; text-decoration: none; font-size: 0.9rem; display: flex; align-items: center; justify-content: center; gap: 6px; }
+        .btn-whatsapp { background: #25D366; color: white; }
+        .btn-outline { border: 1px solid var(--primary); color: var(--primary); background: transparent; }
+
+        /* Forms & Modals */
+        .form-box { max-width: 650px; margin: 0 auto; background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 30px; box-shadow: var(--shadow); }
+        .form-group { margin-bottom: 18px; }
+        .form-group label { display: block; font-weight: 700; margin-bottom: 6px; font-size: 0.9rem; }
+        .form-control { width: 100%; padding: 12px; border: 1px solid var(--border); border-radius: 8px; font-size: 0.95rem; outline: none; background: #f8fafc; }
+        .form-control:focus { border-color: var(--primary); background: #fff; }
+        
+        .modal { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.5); z-index: 2000; justify-content: center; align-items: center; padding: 20px; }
+        .modal.active { display: flex; }
+        .modal-content { background: var(--surface); border-radius: var(--radius); max-width: 600px; width: 100%; max-height: 90vh; overflow-y: auto; padding: 25px; position: relative; }
+        .close-modal { position: absolute; left: 20px; top: 20px; font-size: 1.2rem; cursor: pointer; color: var(--muted); }
+
+        /* Rating Widget */
+        .star-rating-box { display: flex; gap: 8px; direction: ltr; justify-content: center; font-size: 1.8rem; margin: 10px 0; color: #cbd5e1; }
+        .star-rating-box i { cursor: pointer; transition: color 0.15s ease; }
+        .star-rating-box i.active { color: var(--accent-yellow); }
+        .rating-badge { background: #fef3c7; color: #b45309; padding: 2px 8px; border-radius: 6px; font-weight: bold; font-size: 0.85rem; }
+
+        /* Admin Table */
+        .admin-table { width: 100%; border-collapse: collapse; margin-top: 15px; font-size: 0.85rem; }
+        .admin-table th, .admin-table td { border: 1px solid var(--border); padding: 10px; text-align: right; }
+        .admin-table th { background: #f1f5f9; font-weight: 800; }
+
+        /* Footer Styling */
+        .main-footer { background: #1e293b; color: #f8fafc; margin-top: auto; border-top: 3px solid var(--primary); padding-top: 40px; }
+        .footer-container { max-width: 1300px; margin: 0 auto; padding: 0 20px 30px; display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 30px; }
+        .footer-logo { display: flex; align-items: center; gap: 10px; font-size: 1.4rem; font-weight: 800; color: white; margin-bottom: 12px; }
+        .footer-desc { font-size: 0.88rem; color: #94a3b8; line-height: 1.6; }
+        .footer-section h4 { color: var(--accent); font-size: 1.05rem; margin-bottom: 15px; font-weight: 800; }
+        .footer-section ul { list-style: none; }
+        .footer-section ul li { margin-bottom: 10px; }
+        .footer-section ul li a { color: #cbd5e1; text-decoration: none; font-size: 0.88rem; transition: color 0.2s; display: flex; align-items: center; gap: 8px; }
+        .footer-section ul li a:hover { color: white; }
+        .footer-section.contact p { font-size: 0.88rem; color: #cbd5e1; margin-bottom: 10px; display: flex; align-items: center; gap: 8px; }
+        .footer-bottom { background: #0f172a; padding: 16px 20px; border-top: 1px solid #334155; font-size: 0.85rem; color: #94a3b8; }
+        .footer-bottom-container { max-width: 1300px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px; }
+        .made-in-oman { font-weight: 800; color: #e2e8f0; display: flex; align-items: center; gap: 6px; }
+
+        /* Responsive Breakpoints for All Devices */
+        @media (max-width: 768px) {
+            .nav-container { flex-direction: column; align-items: stretch; gap: 10px; }
+            .nav-actions { justify-content: space-between; width: 100%; }
+            .nav-tabs { width: 100%; justify-content: center; }
+            .tab-btn { flex: 1; justify-content: center; padding: 8px 10px; font-size: 0.82rem; }
+            .grid-container { grid-template-columns: 1fr; }
+            .btn-group { grid-template-columns: 1fr; }
+            .admin-table { display: block; overflow-x: auto; }
+            .footer-bottom-container { flex-direction: column; text-align: center; justify-content: center; }
+            .promo-boost-banner { flex-direction: column; gap: 10px; text-align: center; }
+            .ads-board-box { height: 160px; }
+            .filter-card { grid-template-columns: 1fr 1fr; }
+        }
+
+        @media (max-width: 480px) {
+            main { padding: 15px 10px; }
+            .filter-card { grid-template-columns: 1fr; padding: 12px; }
+            .card-header { gap: 10px; }
+            .profile-img { width: 70px; height: 70px; }
+            .card-info h3 { font-size: 0.98rem; }
+            .form-box, .modal-content { padding: 18px 12px; }
+            .ads-board-box { height: 130px; }
+            .brand-name { font-size: 1.4rem; }
+            #addAdForm { grid-template-columns: 1fr !important; }
+        }
+    </style>
+</head>
+<body>
+
+    <nav>
+        <div class="nav-container">
+            <div class="brand-box">
+                <a href="#" class="brand-logo">
+                    <svg viewBox="0 0 100 100">
+                        <circle cx="50" cy="50" r="45" fill="#8a1538"/>
+                        <circle cx="50" cy="50" r="35" fill="none" stroke="#d4af37" stroke-width="4"/>
+                        <circle cx="50" cy="50" r="8" fill="#d4af37"/>
+                        <line x1="50" y1="15" x2="50" y2="42" stroke="#ffffff" stroke-width="5"/>
+                        <line x1="20" y1="68" x2="43" y2="55" stroke="#ffffff" stroke-width="5"/>
+                        <line x1="80" y1="68" x2="57" y2="55" stroke="#ffffff" stroke-width="5"/>
+                    </svg>
+                    <span class="brand-name" data-i18n="brand_name">منصة تريد</span>
+                </a>
+                <span class="brand-desc" data-i18n="brand_desc">دليلك الذكي للربط بين مقدمي الخدمات المستقلة والمستفيدين في سلطنة عُمان</span>
+            </div>
+
+            <div class="nav-actions">
+                <button class="btn-lang" onclick="toggleLanguage()" id="langBtn">EN</button>
+                
+                <div class="nav-tabs">
+                    <button class="tab-btn active" onclick="switchTab('browseTab', this)">
+                        <i class="fa-solid fa-shapes"></i> <span data-i18n="nav_browse">استكشاف الخدمات</span>
+                    </button>
+                    <button class="tab-btn" onclick="switchTab('registerTab', this)" id="registerTabBtn">
+                        <i class="fa-solid fa-user-plus"></i> <span data-i18n="nav_join">انضم كمقدم خدمة</span>
+                    </button>
+                </div>
+
+                <div id="authNavSection">
+                    <button class="btn btn-outline" onclick="openModal('authModal')" data-i18n="btn_login">دخول / تسجيل</button>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <main>
+        <div id="browseTab" class="tab-content active">
+            
+            <!-- Provider Promotion Banner -->
+            <div class="promo-boost-banner" id="promoBoostBanner" onclick="openWhatsAppBoost()">
+                <div class="promo-text">
+                    <i class="fa-solid fa-rocket" style="color:var(--accent-yellow); font-size:1.3rem;"></i>
+                    <span data-i18n="promo_text">اجعل إعلانك يظهر أولاً مقابل ريال واحد فقط!</span>
+                </div>
+                <a href="https://wa.me/96893307616?text=%D9%8A%D8%B1%D8%AC%D9%89%20%D8%A5%D8%B8%D9%87%D8%A7%D8%B1%20%D8%A5%D8%B9%D9%84%D8%A7%D9%8D%D9%8A%20%D9%84%D9%84%D8%A3%D8%B9%D9%84%D9%89" target="_blank" class="promo-btn" data-i18n="promo_btn">ترقية الإعلان الآن</a>
+            </div>
+
+            <!-- Service Categories -->
+            <div class="service-categories-bar">
+                <div class="category-chip active" onclick="selectServiceCategory('الكل', this)">
+                    <i class="fa-solid fa-list-check"></i> <span data-i18n="cat_all">جميع الخدمات</span>
+                </div>
+                <div class="category-chip" onclick="selectServiceCategory('تعليم السياقة', this)">
+                    <i class="fa-solid fa-car"></i> <span data-i18n="cat_driving">تعليم السياقة</span>
+                </div>
+                <div class="category-chip" onclick="selectServiceCategory('نقل مياه (صهريج)', this)">
+                    <i class="fa-solid fa-droplet"></i> <span data-i18n="cat_water">صهاريج نقل المياه</span>
+                </div>
+                <div class="category-chip" onclick="selectServiceCategory('شاحنة مياه الصرف الصحي', this)">
+                    <i class="fa-solid fa-recycle"></i> <span data-i18n="cat_sewage">شاحنة مياه الصرف الصحي</span>
+                </div>
+                <div class="category-chip" onclick="selectServiceCategory('نقل وتوصيل بضائع', this)">
+                    <i class="fa-solid fa-truck"></i> <span data-i18n="cat_cargo">نقل عفش وبضائع</span>
+                </div>
+                <div class="category-chip" onclick="selectServiceCategory('سطحة / سحب مركبات', this)">
+                    <i class="fa-solid fa-truck-pickup"></i> <span data-i18n="cat_towing">سطحة وسحب مركبات</span>
+                </div>
+                <div class="category-chip" onclick="selectServiceCategory('خدمات أخرى', this)">
+                    <i class="fa-solid fa-wrench"></i> <span data-i18n="cat_others">خدمات أخرى</span>
+                </div>
+            </div>
+
+            <!-- Ads Carousel Board (مخفية افتراضياً وتظهر بعد اختيار نوع الخدمة) -->
+            <div class="ads-board-wrapper">
+                <a href="https://wa.me/96893307616?text=%D8%A7%D8%B1%D8%BA%D8%A8%20%D9%81%20%D8%A7%D9%84%D8%A7%D8%B9%D9%84%D8%A7%D9%8BD%20%D8%A7%D8%B1%D8%B3%D9%84%20%D8%A7%D9%84%D8%AA%D9%81%D8%A7%D8%B5%D9%8A%D9%84" target="_blank" class="ads-top-link" data-i18n="ads_click_here">
+                    <i class="fa-solid fa-bullhorn"></i> اضغط للاعلان هنا
+                </a>
+                <div class="ads-board-box" id="adsCarouselBox" onclick="handleAdClick()">
+                    <img id="adsSlideImg" src="https://via.placeholder.com/800x220/8a1538/ffffff?text=%D9%85%D8%B5%D9%86%D8%A9+%D8%AA%D8%B1%D9%8A%D8%AF+-+%D9%85%D9%83%D8%A7%D9%8BD%20%D8%A5%D8%B9%D9%84%D8%A7%D9%86%D9%83+%D9%87%D9%86%D8%A7" class="ads-board-img" alt="إعلان">
+                </div>
+            </div>
+
+            <!-- Search Filters -->
+            <div class="filter-card">
+                <input type="text" id="searchQuery" class="filter-control" placeholder="ابحث باسم المزود، الهاتف، أو التفاصيل..." oninput="filterInstructors()">
+                
+                <select id="filterService" class="filter-control" onchange="filterInstructors()">
+                    <option value="">جميع أنواع الخدمات</option>
+                    <option value="تعليم السياقة">تعليم السياقة</option>
+                    <option value="نقل مياه (صهريج)">نقل مياه (صهريج)</option>
+                    <option value="شاحنة مياه الصرف الصحي">شاحنة مياه الصرف الصحي</option>
+                    <option value="نقل وتوصيل بضائع">نقل وتوصيل بضائع</option>
+                    <option value="سطحة / سحب مركبات">سطحة / سحب مركبات</option>
+                    <option value="خدمات أخرى">خدمات أخرى</option>
+                </select>
+
+                <select id="filterGender" class="filter-control" onchange="filterInstructors()">
+                    <option value="">كل الجنسين</option>
+                    <option value="ذكر">ذكر</option>
+                    <option value="أنثى">أنثى</option>
+                </select>
+
+                <select id="filterGov" class="filter-control" onchange="onGovFilterChange()">
+                    <option value="">جميع المحافظات</option>
+                </select>
+
+                <select id="filterWilayat" class="filter-control" onchange="filterInstructors()">
+                    <option value="">جميع الولايات</option>
+                </select>
+            </div>
+
+            <div class="grid-container" id="instructorsGrid"></div>
+        </div>
+
+        <div id="registerTab" class="tab-content">
+            <div class="form-box">
+                <h2 style="margin-bottom: 20px; color: var(--primary);" data-i18n="reg_title">تسجيل حساب مقدم خدمة في منصة تريد</h2>
+                <form id="instructorRegisterForm">
+                    <div class="form-group">
+                        <label>الاسم الكامل أو اسم الناقلة / الخدمة</label>
+                        <input type="text" id="regName" class="form-control" placeholder="مثال: أحمد البوسعيدي أو صهريج النظافة" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label>رقم الهاتف (8 أرقام يبدأ بـ 9 أو 7)</label>
+                        <input type="tel" id="regPhone" class="form-control" placeholder="9XXXXXXX أو 7XXXXXXX" required maxlength="8">
+                    </div>
+
+                    <div class="form-group">
+                        <label>نوع الخدمة التي تقدمها</label>
+                        <select id="regServiceCategory" class="form-control" onchange="toggleServiceSubFields(this.value)" required>
+                            <option value="تعليم السياقة">تعليم السياقة</option>
+                            <option value="نقل مياه (صهريج)">نقل مياه (صهريج / تانكر)</option>
+                            <option value="شاحنة مياه الصرف الصحي">شاحنة مياه الصرف الصحي</option>
+                            <option value="نقل وتوصيل بضائع">نقل وتوصيل بضائع وعفش</option>
+                            <option value="سطحة / سحب مركبات">سطحة وسحب مركبات</option>
+                            <option value="خدمات أخرى">خدمات أخرى</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group" id="subFieldDriving">
+                        <label>نوع التدريب (الجير)</label>
+                        <select id="regGear" class="form-control">
+                            <option value="أوتوماتيك">أوتوماتيك</option>
+                            <option value="عادي">عادي</option>
+                            <option value="الاثنين معاً">الاثنين معاً</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group" id="subFieldWater" style="display:none;">
+                        <label>تفاصيل وسعة الصهريج / نوع المياه</label>
+                        <input type="text" id="regWaterDetails" class="form-control" placeholder="مثال: صهريج 650 جالون - مياه شرب / استخدام عام">
+                    </div>
+
+                    <div class="form-group" id="subFieldSewage" style="display:none;">
+                        <label>تفاصيل وسعة شاحنة الصرف الصحي</label>
+                        <input type="text" id="regSewageDetails" class="form-control" placeholder="مثال: شاحنة شفط مجاري سعة 1000 جالون">
+                    </div>
+
+                    <div class="form-group" id="subFieldGeneral" style="display:none;">
+                        <label>مواصفات الخدمة / السيارة</label>
+                        <input type="text" id="regGeneralDetails" class="form-control" placeholder="مثال: شاحنة 3 طن مغلقة / سطحة هيدروليك">
+                    </div>
+
+                    <div class="form-group">
+                        <label>كلمة السر</label>
+                        <input type="password" id="regPassword" class="form-control" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label>سؤال الأمان لاستعادة الحساب</label>
+                        <select id="regSecQ" class="form-control" required>
+                            <option value="father">من هو والدك؟</option>
+                            <option value="pet">ما اسم حيوانك المفضل؟</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label>إجابة سؤال الأمان</label>
+                        <input type="text" id="regSecA" class="form-control" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label>الجنس</label>
+                        <select id="regGender" class="form-control" required>
+                            <option value="ذكر">ذكر</option>
+                            <option value="أنثى">أنثى</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label>اختر المحافظة الرئيسية:</label>
+                        <select id="regGov" class="form-control" onchange="updateRegWilayatChips()">
+                            <option value="">-- اختر المحافظة لعرض ولاياتها --</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label>الولايات التي تغطيها بالخدمة (اضغط لاختيار ولاية أو أكثر):</label>
+                        <div class="wilayat-chips-container" id="regWilayatChips"></div>
+                        <div class="selected-summary" id="regSelectedSummary"></div>
+                    </div>
+
+                    <div class="form-group">
+                        <label>تحديد سعر / تعرفة الخدمة</label>
+                        <select id="regPriceOption" class="form-control" onchange="togglePriceInput(this.value, 'regPriceInput')">
+                            <option value="now">تحديد السعر الآن</option>
+                            <option value="later">تحديد السعر لاحقاً / بالاتفاق</option>
+                        </select>
+                        <input type="text" id="regPriceInput" class="form-control" style="margin-top:8px;" placeholder="مثال: 5 ر.ع / ساعة أو 3 ر.ع / رد شاحنة">
+                    </div>
+
+                    <div class="form-group">
+                        <label>صورة البروفايل أو الشاحنة / الخدمة (تظهر في الجانب الأيمن)</label>
+                        <input type="file" id="regPhoto" class="form-control" accept="image/*">
+                    </div>
+
+                    <div class="form-group">
+                        <label>وصف قصير (Bio / تفاصيل الخدمة)</label>
+                        <textarea id="regBio" class="form-control" rows="3" placeholder="اكتب نبذة عن خبرتك، أوقات العمل، ومواصفات الخدمة..."></textarea>
+                    </div>
+
+                    <button type="submit" class="btn btn-outline" style="width: 100%; background: var(--primary); color: white;">إنشاء حساب مقدم الخدمة</button>
+                </form>
+            </div>
+        </div>
+
+        <div id="adminTab" class="tab-content">
+            <h2 style="color: var(--primary); margin-bottom: 15px;">لوحة إدارة منصة تريد الشاملة</h2>
+
+            <div style="background: white; padding: 20px; border-radius: var(--radius); border: 1px solid var(--border); margin-bottom: 25px;">
+                <h3><i class="fa-solid fa-rectangle-ad"></i> إدارة لوحة الإعلانات المتحركة</h3>
+                <p style="font-size:0.85rem; color:var(--muted); margin-bottom:15px;">أضف صور الإعلانات، اختر الخدمة المخصصة لها ورقم الواتساب للتحويل المباشر</p>
+                <form id="addAdForm" style="display:grid; grid-template-columns: 2fr 1.5fr 1fr auto; gap:10px; align-items:end;">
+                    <div class="form-group" style="margin:0;">
+                        <label>صورة الإعلان</label>
+                        <input type="file" id="adPhotoFile" class="form-control" accept="image/*" required>
+                    </div>
+                    <div class="form-group" style="margin:0;">
+                        <label>الخدمة المحددة للإعلان</label>
+                        <select id="adServiceCategory" class="form-control" required>
+                            <option value="الكل">جميع الخدمات (إعلان عام)</option>
+                            <option value="تعليم السياقة">تعليم السياقة</option>
+                            <option value="نقل مياه (صهريج)">نقل مياه (صهريج)</option>
+                            <option value="شاحنة مياه الصرف الصحي">شاحنة مياه الصرف الصحي</option>
+                            <option value="نقل وتوصيل بضائع">نقل وتوصيل بضائع</option>
+                            <option value="سطحة / سحب مركبات">سطحة / سحب مركبات</option>
+                            <option value="خدمات أخرى">خدمات أخرى</option>
+                        </select>
+                    </div>
+                    <div class="form-group" style="margin:0;">
+                        <label>رقم المعلن (8 أرقام)</label>
+                        <input type="tel" id="adPhoneInput" class="form-control" placeholder="9XXXXXXX" required maxlength="8">
+                    </div>
+                    <button type="submit" class="btn" style="background:var(--primary); color:white; height:42px;">إضافة الإعلان</button>
+                </form>
+
+                <div id="adminAdsList" style="display:flex; flex-wrap:wrap; gap:15px; margin-top:15px;"></div>
+            </div>
+
+            <div style="background: white; padding: 20px; border-radius: var(--radius); border: 1px solid var(--border);">
+                <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:10px; margin-bottom:15px;">
+                    <h3><i class="fa-solid fa-users"></i> إدارة مزودي الخدمات والترقية</h3>
+                    <input type="text" id="adminSearchPhone" class="filter-control" style="max-width:250px;" placeholder="ابحث بالرقم لترقية الإعلان..." oninput="renderAdminTable()">
+                </div>
+
+                <table class="admin-table">
+                    <thead>
+                        <tr>
+                            <th>نوع الخدمة</th>
+                            <th>الاسم</th>
+                            <th>الهاتف</th>
+                            <th>كلمة السر</th>
+                            <th>حالة التمييز</th>
+                            <th>التوثيق</th>
+                            <th>إجراءات</th>
+                        </tr>
+                    </thead>
+                    <tbody id="adminUsersTable"></tbody>
+                </table>
+            </div>
+        </div>
+    </main>
+
+    <footer class="main-footer">
+        <div class="footer-container">
+            <div class="footer-section">
+                <div class="footer-logo">
+                    <svg viewBox="0 0 100 100" width="32" height="32">
+                        <circle cx="50" cy="50" r="45" fill="#8a1538"/>
+                        <circle cx="50" cy="50" r="35" fill="none" stroke="#d4af37" stroke-width="4"/>
+                        <circle cx="50" cy="50" r="8" fill="#d4af37"/>
+                        <line x1="50" y1="15" x2="50" y2="42" stroke="#ffffff" stroke-width="5"/>
+                        <line x1="20" y1="68" x2="43" y2="55" stroke="#ffffff" stroke-width="5"/>
+                        <line x1="80" y1="68" x2="57" y2="55" stroke="#ffffff" stroke-width="5"/>
+                    </svg>
+                    <span data-i18n="brand_name">منصة تريد</span>
+                </div>
+                <p class="footer-desc" data-i18n="footer_desc">
+                    المنصة الأولى الشاملة في سلطنة عُمان لتسهيل التواصل المباشر بين العملاء ومزودي الخدمات المتنوعة (تعليم سياقة، صهاريج مياه، شاحنات صرف صحي، نقل عفش، سطحات) في جميع المحافظات والولايات.
+                </p>
+            </div>
+            
+            <div class="footer-section">
+                <h4 data-i18n="quick_links">روابط سريعة</h4>
+                <ul>
+                    <li><a href="#" onclick="switchTab('browseTab')"><i class="fa-solid fa-chevron-left"></i> <span data-i18n="nav_browse">استكشاف الخدمات</span></a></li>
+                    <li><a href="#" onclick="switchTab('registerTab')"><i class="fa-solid fa-chevron-left"></i> <span data-i18n="nav_join">الانضمام كمقدم خدمة</span></a></li>
+                    <li><a href="#" onclick="openModal('authModal')"><i class="fa-solid fa-chevron-left"></i> <span data-i18n="btn_login">تسجيل الدخول</span></a></li>
+                </ul>
+            </div>
+
+            <div class="footer-section contact">
+                <h4 data-i18n="support_title">الدعم والمساعدة</h4>
+                <p><i class="fa-brands fa-whatsapp" style="color:#25D366;"></i> واتساب الدعم: <a href="https://wa.me/96893307616" target="_blank" style="color: #25D366; text-decoration: none; font-weight:bold;">93307616 968+</a></p>
+                <p><i class="fa-solid fa-envelope"></i> البريد الإلكتروني: support@treed.om</p>
+                <p><i class="fa-solid fa-shield-halved"></i> آمن وموثوق 100%</p>
+            </div>
+        </div>
+
+        <div class="footer-bottom">
+            <div class="footer-bottom-container">
+                <p>© 2026 منصة تريد. جميع الحقوق محفوظة.</p>
+                <div class="made-in-oman">
+                    <span>صُنع بحب في سلطنة عُمان</span>
+                    <span style="font-size:1.1rem;">🇴🇲</span>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Auth Modal -->
+    <div class="modal" id="authModal">
+        <div class="modal-content">
+            <span class="close-modal" onclick="closeModal('authModal')">&times;</span>
+            <div id="loginBox">
+                <h3 style="margin-bottom: 15px; color: var(--primary);">تسجيل الدخول - منصة تريد</h3>
+                <div class="form-group">
+                    <label>رقم الهاتف</label>
+                    <input type="text" id="loginPhone" class="form-control" required>
+                </div>
+                <div class="form-group">
+                    <label>كلمة السر</label>
+                    <input type="password" id="loginPass" class="form-control" required>
+                </div>
+                <button class="btn btn-outline" style="width: 100%; background: var(--primary); color: white;" onclick="handleLogin()">دخول</button>
+                
+                <div style="display: flex; justify-content: space-between; margin-top: 15px; font-size: 0.85rem;">
+                    <a href="#" onclick="showForgot()" style="color: var(--primary);">نسيت كلمة السر؟</a>
+                    <a href="https://wa.me/96893307616" target="_blank" style="color: #25D366; font-weight: bold;"><i class="fa-brands fa-whatsapp"></i> الدعم الفني</a>
+                </div>
+            </div>
+
+            <div id="forgotBox" style="display: none;">
+                <h3 style="margin-bottom: 15px; color: var(--primary);">استعادة كلمة السر</h3>
+                <div class="form-group">
+                    <label>رقم الهاتف المسجل</label>
+                    <input type="text" id="recPhone" class="form-control">
+                </div>
+                <div class="form-group">
+                    <label>سؤال الأمان</label>
+                    <select id="recQ" class="form-control">
+                        <option value="father">من هو والدك؟</option>
+                        <option value="pet">ما اسم حيوانك المفضل؟</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>الإجابة</label>
+                    <input type="text" id="recA" class="form-control">
+                </div>
+                <button class="btn btn-outline" style="width: 100%; background: var(--primary); color: white;" onclick="handleRecovery()">تحقق لإظهار كلمة السر</button>
+                <button class="btn btn-outline" style="width: 100%; margin-top: 10px;" onclick="hideForgot()">إلغاء</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Profile Modal -->
+    <div class="modal" id="profileModal">
+        <div class="modal-content">
+            <span class="close-modal" onclick="closeModal('profileModal')">&times;</span>
+            <div id="profileDetailsView"></div>
+        </div>
+    </div>
+
+    <!-- Edit Profile Modal -->
+    <div class="modal" id="editProfileModal">
+        <div class="modal-content">
+            <span class="close-modal" onclick="closeModal('editProfileModal')">&times;</span>
+            <h3 style="margin-bottom: 15px; color: var(--primary);">تعديل بيانات الخدمة الكاملة</h3>
+            <form id="editInstructorForm">
+                <div class="form-group">
+                    <label>الاسم / اسم الخدمة</label>
+                    <input type="text" id="editName" class="form-control" required>
+                </div>
+                <div class="form-group">
+                    <label>رقم الهاتف</label>
+                    <input type="tel" id="editPhone" class="form-control" maxlength="8" required>
+                </div>
+                <div class="form-group">
+                    <label>نوع الخدمة</label>
+                    <select id="editServiceCategory" class="form-control">
+                        <option value="تعليم السياقة">تعليم السياقة</option>
+                        <option value="نقل مياه (صهريج)">نقل مياه (صهريج)</option>
+                        <option value="شاحنة مياه الصرف الصحي">شاحنة مياه الصرف الصحي</option>
+                        <option value="نقل وتوصيل بضائع">نقل وتوصيل بضائع</option>
+                        <option value="سطحة / سحب مركبات">سطحة / سحب مركبات</option>
+                        <option value="خدمات أخرى">خدمات أخرى</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>الجنس</label>
+                    <select id="editGender" class="form-control">
+                        <option value="ذكر">ذكر</option>
+                        <option value="أنثى">أنثى</option>
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <label>اختر المحافظة:</label>
+                    <select id="editGov" class="form-control" onchange="updateEditWilayatChips()">
+                        <option value="">-- اختر المحافظة لعرض ولاياتها --</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label>الولايات التي تشملها (تحديد متعدد):</label>
+                    <div class="wilayat-chips-container" id="editWilayatChips"></div>
+                    <div class="selected-summary" id="editSelectedSummary"></div>
+                </div>
+
+                <div class="form-group">
+                    <label>تحديد السعر</label>
+                    <select id="editPriceOption" class="form-control" onchange="togglePriceInput(this.value, 'editPriceInput')">
+                        <option value="now">تحديد السعر الآن</option>
+                        <option value="later">تحديد السعر لاحقاً</option>
+                    </select>
+                    <input type="text" id="editPriceInput" class="form-control" style="margin-top:8px;">
+                </div>
+                <div class="form-group">
+                    <label>تغيير صورة الخدمة / البروفايل</label>
+                    <input type="file" id="editPhoto" class="form-control" accept="image/*">
+                </div>
+                <div class="form-group">
+                    <label>نبذة / الوصف التفصيلي للخدمة</label>
+                    <textarea id="editBio" class="form-control" rows="3"></textarea>
+                </div>
+                <button type="submit" class="btn btn-outline" style="width: 100%; background: var(--primary); color: white;">حفظ التعديلات</button>
+            </form>
+        </div>
+    </div>
+
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+        import { getDatabase, ref, push, onValue, remove, update } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-database.js";
+
+        const firebaseConfig = {
+            apiKey: "AIzaSyADHJjoGJQF1U7LCFmqh6v1GgeM9BB5BDE",
+            authDomain: "sss-c1375.firebaseapp.com",
+            databaseURL: "https://sss-c1375-default-rtdb.firebaseio.com",
+            projectId: "sss-c1375",
+            storageBucket: "sss-c1375.firebasestorage.app",
+            messagingSenderId: "873578217806",
+            appId: "1:873578217806:web:ce8e398aab964adb649e1f"
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const database = getDatabase(app);
+
+        window.db = database;
+        window.dbRefs = { ref, push, onValue, remove, update };
+        window.currentUser = JSON.parse(localStorage.getItem('trade_current_user')) || null;
+        window.allInstructors = [];
+        window.allUsers = [];
+        window.allAds = [];
+        window.selectedRating = 5;
+
+        // Firebase Watchers
+        onValue(ref(database, 'instructors'), (snapshot) => {
+            const data = snapshot.val();
+            window.allInstructors = [];
+            if(data) {
+                Object.keys(data).forEach(k => window.allInstructors.push({ id: k, ...data[k] }));
+            }
+            renderInstructorsList();
+            if(window.currentUser && window.currentUser.isAdmin) renderAdminTable();
+        });
+
+        onValue(ref(database, 'users'), (snapshot) => {
+            const data = snapshot.val();
+            window.allUsers = [];
+            if(data) {
+                Object.keys(data).forEach(k => window.allUsers.push({ id: k, ...data[k] }));
+            }
+            if(window.currentUser && window.currentUser.isAdmin) renderAdminTable();
+        });
+
+        onValue(ref(database, 'ads'), (snapshot) => {
+            const data = snapshot.val();
+            window.allAds = [];
+            if(data) {
+                Object.keys(data).forEach(k => window.allAds.push({ id: k, ...data[k] }));
+            }
+            startAdsCarousel();
+            if(window.currentUser && window.currentUser.isAdmin) renderAdminAdsList();
+        });
+
+        if(window.currentUser) {
+            updateUserUI();
+            if(window.currentUser.isAdmin) switchTab('adminTab');
+        } else {
+            updateUserUI();
+        }
+    </script>
+
+    <script>
+        const i18nData = {
+            ar: {
+                title: "منصة تريد | المنصة الأولى للخدمات المتنوعة في عُمان",
+                brand_name: "منصة تريد",
+                brand_desc: "دليلك الذكي للربط بين مقدمي الخدمات المستقلة والمستفيدين في سلطنة عُمان",
+                nav_browse: "استكشاف الخدمات",
+                nav_join: "انضم كمقدم خدمة",
+                btn_login: "دخول / تسجيل",
+                promo_text: "اجعل إعلانك يظهر أولاً مقابل ريال واحد فقط!",
+                promo_btn: "ترقية الإعلان الآن",
+                cat_all: "جميع الخدمات",
+                cat_driving: "تعليم السياقة",
+                cat_water: "صهاريج نقل المياه",
+                cat_sewage: "شاحنة مياه الصرف الصحي",
+                cat_cargo: "نقل عفش وبضائع",
+                cat_towing: "سطحة وسحب مركبات",
+                cat_others: "خدمات أخرى",
+                ads_click_here: "اضغط للاعلان هنا",
+                reg_title: "تسجيل حساب مقدم خدمة في منصة تريد",
+                quick_links: "روابط سريعة",
+                support_title: "الدعم والمساعدة",
+                footer_desc: "المنصة الأولى الشاملة في سلطنة عُمان لتسهيل التواصل المباشر بين العملاء ومزودي الخدمات في جميع المحافظات والولايات."
+            },
+            en: {
+                title: "Treed Platform | #1 Multi-Services Platform in Oman",
+                brand_name: "Treed Platform",
+                brand_desc: "Your smart guide connecting service providers and customers in Oman",
+                nav_browse: "Explore Services",
+                nav_join: "Join as Provider",
+                btn_login: "Login / Register",
+                promo_text: "Promote your ad to top spot for only 1 OMR!",
+                promo_btn: "Promote Now",
+                cat_all: "All Services",
+                cat_driving: "Driving Lessons",
+                cat_water: "Water Tankers",
+                cat_sewage: "Sewage Suction Truck",
+                cat_cargo: "Cargo & Moving",
+                cat_towing: "Towing & Recovery",
+                cat_others: "Other Services",
+                ads_click_here: "Click Here to Advertise",
+                reg_title: "Register as a Service Provider",
+                quick_links: "Quick Links",
+                support_title: "Support & Help",
+                footer_desc: "The leading service directory platform in Oman connecting clients with independent service providers directly."
+            }
+        };
+
+        let currentLang = localStorage.getItem('trade_lang') || 'ar';
+
+        function toggleLanguage() {
+            currentLang = currentLang === 'ar' ? 'en' : 'ar';
+            localStorage.setItem('trade_lang', currentLang);
+            applyLanguage();
+        }
+
+        function applyLanguage() {
+            document.documentElement.lang = currentLang;
+            document.documentElement.dir = currentLang === 'ar' ? 'rtl' : 'ltr';
+            document.getElementById('langBtn').innerText = currentLang === 'ar' ? 'EN' : 'عربي';
+
+            document.querySelectorAll('[data-i18n]').forEach(el => {
+                const key = el.getAttribute('data-i18n');
+                if(i18nData[currentLang][key]) {
+                    el.innerText = i18nData[currentLang][key];
+                }
+            });
+        }
+
+        let adCarouselInterval = null;
+        let currentAdIndex = 0;
+        let activeFilteredAds = [];
+
+        function startAdsCarousel() {
+            const imgEl = document.getElementById('adsSlideImg');
+            if(!imgEl) return;
+
+            if(adCarouselInterval) clearInterval(adCarouselInterval);
+
+            const selectedService = document.getElementById('filterService')?.value || "";
+
+            activeFilteredAds = window.allAds.filter(ad => {
+                if (!selectedService || selectedService === "" || selectedService === "الكل") return true;
+                return !ad.serviceCategory || ad.serviceCategory === "الكل" || ad.serviceCategory === selectedService;
+            });
+
+            currentAdIndex = 0;
+
+            if(activeFilteredAds.length === 0) {
+                imgEl.src = "https://via.placeholder.com/800x220/8a1538/ffffff?text=%D9%85%D8%B5%D9%86%D8%A9+%D8%AA%D8%B1%D9%8A%D8%AF+-+%D9%85%D9%83%D8%A7%D9%8BD%20%D8%A5%D8%B9%D9%84%D8%A7%D9%86%D9%83+%D9%87%D9%86%D8%A7";
+                return;
+            }
+
+            const updateSlide = () => {
+                if(activeFilteredAds.length === 0) return;
+                currentAdIndex = (currentAdIndex + 1) % activeFilteredAds.length;
+                imgEl.style.opacity = '0';
+                setTimeout(() => {
+                    imgEl.src = activeFilteredAds[currentAdIndex].photo;
+                    imgEl.style.opacity = '1';
+                }, 300);
+            };
+
+            imgEl.src = activeFilteredAds[0].photo;
+            if(activeFilteredAds.length > 1) {
+                adCarouselInterval = setInterval(updateSlide, 3000);
+            }
+        }
+
+        function handleAdClick() {
+            if(activeFilteredAds.length > 0 && activeFilteredAds[currentAdIndex]) {
+                const adPhone = activeFilteredAds[currentAdIndex].phone;
+                window.open(`https://wa.me/968${adPhone}`, '_blank');
+            } else {
+                window.open("https://wa.me/96893307616?text=%D8%A7%D8%B1%D8%BA%D8%A8%20%D9%81%20%D8%A7%D9%84%D8%A7%D8%B9%D9%84%D8%A7%D9%8BD%20%D8%A7%D8%B1%D8%B3%D9%84%20%D8%A7%D9%84%D8%AA%D9%81%D8%A7%D8%B5%D9%8A%D9%84", '_blank');
+            }
+        }
+
+        function openWhatsAppBoost() {
+            window.open("https://wa.me/96893307616?text=%D8%A3%D8%B8%D9%87%D8%B1%20%D8%A5%D8%B9%D9%84%D8%A7%D9%86%D9%8A%20%D9%84%D9%84%D8%A3%D8%B9%D9%84%D9%89", "_blank");
+        }
+
+        const omaniData = {
+            "مسقط": ["مسقط", "السيب", "بوشر", "العامرات", "مطرح", "قريات"],
+            "ظفار": ["صلالة", "طاقة", "مرباط", "رخيوت", "ثمريت", "ضلكوت", "المزيونة", "شليم وجزر الحلانيات", "سدح", "مقشن"],
+            "مسندم": ["خصب", "دبا", "بخاء", "مدحاء"],
+            "البريمي": ["البريمي", "محضة", "السنينة"],
+            "الداخلية": ["نزوى", "بهلاء", "منح", "الحمراء", "أدم", "إزكي", "سمائل", "بدبد", "الجبل الأخضر"],
+            "شمال الباطنة": ["صحار", "صحم", "الخابورة", "السويق", "لوى", "شناص"],
+            "جنوب الباطنة": ["الرستاق", "العوابي", "نخل", "وادي المعاول", "بركاء", "المصنعة"],
+            "شمال الشرقية": ["إبراء", "المضيبي", "بدية", "القابل", "وادي بني خالد", "دماء والطائيين", "سناو"],
+            "جنوب الشرقية": ["صور", "الكامل والوافي", "جعلان بني بو حسن", "جعلان بني بو علي", "مصيرة"],
+            "الظاهرة": ["عبري", "ينقل", "ضنك"],
+            "الوسطى": ["هيماء", "محوت", "الدقم", "الجازر"]
+        };
+
+        let regSelectedWilayats = new Set();
+        let editSelectedWilayats = new Set();
+
+        window.addEventListener('DOMContentLoaded', () => {
+            initGovernoratesDropdowns();
+            applyLanguage();
+        });
+
+        function initGovernoratesDropdowns() {
+            const govList = Object.keys(omaniData);
+            
+            const filterGovSelect = document.getElementById('filterGov');
+            filterGovSelect.innerHTML = '<option value="">جميع المحافظات</option>' +
+                govList.map(g => `<option value="${g}">${g}</option>`).join('');
+
+            const regGovSelect = document.getElementById('regGov');
+            regGovSelect.innerHTML = '<option value="">-- اختر المحافظة لعرض ولاياتها --</option>' +
+                govList.map(g => `<option value="${g}">${g}</option>`).join('');
+
+            const editGovSelect = document.getElementById('editGov');
+            editGovSelect.innerHTML = '<option value="">-- اختر المحافظة لعرض ولاياتها --</option>' +
+                govList.map(g => `<option value="${g}">${g}</option>`).join('');
+
+            onGovFilterChange();
+            updateRegWilayatChips();
+            updateEditWilayatChips();
+        }
+
+        function onGovFilterChange() {
+            const selectedGov = document.getElementById('filterGov').value;
+            const wilayatSelect = document.getElementById('filterWilayat');
+
+            let wilayats = [];
+            if (selectedGov && omaniData[selectedGov]) {
+                wilayats = omaniData[selectedGov];
+            } else {
+                Object.values(omaniData).forEach(arr => wilayats.push(...arr));
+            }
+
+            wilayatSelect.innerHTML = '<option value="">جميع الولايات</option>' +
+                wilayats.map(w => `<option value="${w}">${w}</option>`).join('');
+
+            filterInstructors();
+        }
+
+        function updateRegWilayatChips() {
+            const gov = document.getElementById('regGov').value;
+            const container = document.getElementById('regWilayatChips');
+            if(!container) return;
+
+            let wilayatsToShow = (gov && omaniData[gov]) ? omaniData[gov] : Object.values(omaniData).flat();
+
+            container.innerHTML = wilayatsToShow.map(w => {
+                const isSelected = regSelectedWilayats.has(w) ? 'selected' : '';
+                return `<div class="chip-item ${isSelected}" onclick="toggleRegChip(this, '${w}')">${w}</div>`;
+            }).join('');
+
+            renderSelectedSummary('regSelectedSummary', regSelectedWilayats);
+        }
+
+        function toggleRegChip(el, value) {
+            if (regSelectedWilayats.has(value)) {
+                regSelectedWilayats.delete(value);
+                el.classList.remove('selected');
+            } else {
+                regSelectedWilayats.add(value);
+                el.classList.add('selected');
+            }
+            renderSelectedSummary('regSelectedSummary', regSelectedWilayats);
+        }
+
+        function updateEditWilayatChips() {
+            const gov = document.getElementById('editGov').value;
+            const container = document.getElementById('editWilayatChips');
+            if(!container) return;
+
+            let wilayatsToShow = (gov && omaniData[gov]) ? omaniData[gov] : Object.values(omaniData).flat();
+
+            container.innerHTML = wilayatsToShow.map(w => {
+                const isSelected = editSelectedWilayats.has(w) ? 'selected' : '';
+                return `<div class="chip-item ${isSelected}" onclick="toggleEditChip(this, '${w}')">${w}</div>`;
+            }).join('');
+
+            renderSelectedSummary('editSelectedSummary', editSelectedWilayats);
+        }
+
+        function toggleEditChip(el, value) {
+            if (editSelectedWilayats.has(value)) {
+                editSelectedWilayats.delete(value);
+                el.classList.remove('selected');
+            } else {
+                editSelectedWilayats.add(value);
+                el.classList.add('selected');
+            }
+            renderSelectedSummary('editSelectedSummary', editSelectedWilayats);
+        }
+
+        function renderSelectedSummary(elementId, setObj) {
+            const el = document.getElementById(elementId);
+            if (!el) return;
+            const arr = Array.from(setObj);
+            el.innerHTML = arr.length > 0 ? `الولايات المختارة (${arr.length}): ${arr.join(' ، ')}` : 'لم يتم اختيار أي ولاية بعد.';
+        }
+
+        function togglePriceInput(optionValue, inputId) {
+            const input = document.getElementById(inputId);
+            if(optionValue === 'later') {
+                input.value = "السعر لاحقاً / بالاتفاق";
+                input.style.display = "none";
+            } else {
+                input.style.display = "block";
+                if(input.value.includes("السعر لاحقاً")) input.value = "";
+            }
+        }
+
+        function toggleServiceSubFields(category) {
+            document.getElementById('subFieldDriving').style.display = category === 'تعليم السياقة' ? 'block' : 'none';
+            document.getElementById('subFieldWater').style.display = category === 'نقل مياه (صهريج)' ? 'block' : 'none';
+            document.getElementById('subFieldSewage').style.display = category === 'شاحنة مياه الصرف الصحي' ? 'block' : 'none';
+            document.getElementById('subFieldGeneral').style.display = (category !== 'تعليم السياقة' && category !== 'نقل مياه (صهريج)' && category !== 'شاحنة مياه الصرف الصحي') ? 'block' : 'none';
+        }
+
+        function selectServiceCategory(catName, chipEl) {
+            document.querySelectorAll('.category-chip').forEach(c => c.classList.remove('active'));
+            if(chipEl) chipEl.classList.add('active');
+
+            const selectEl = document.getElementById('filterService');
+            selectEl.value = catName === 'الكل' ? '' : catName;
+            
+            filterInstructors();
+        }
+
+        function switchTab(tabId, btn) {
+            document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
+            document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+            document.getElementById(tabId).classList.add('active');
+            if(btn) btn.classList.add('active');
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        function openModal(id) { document.getElementById(id).classList.add('active'); }
+        function closeModal(id) { document.getElementById(id).classList.remove('active'); }
+
+        function showForgot() { document.getElementById('loginBox').style.display = 'none'; document.getElementById('forgotBox').style.display = 'block'; }
+        function hideForgot() { document.getElementById('forgotBox').style.display = 'none'; document.getElementById('loginBox').style.display = 'block'; }
+
+        function validateOmaniPhone(phone) {
+            return /^[79]\d{7}$/.test(phone);
+        }
+
+        function handleLogin() {
+            const phone = document.getElementById('loginPhone').value.trim();
+            const pass = document.getElementById('loginPass').value.trim();
+
+            if (phone === "13" && pass === "10") {
+                const adminUser = { name: "المدير العام", phone: "13", isAdmin: true };
+                window.currentUser = adminUser;
+                localStorage.setItem('trade_current_user', JSON.stringify(adminUser));
+                updateUserUI();
+                closeModal('authModal');
+                switchTab('adminTab');
+                renderAdminTable();
+                alert("مرحباً بك في لوحة تحكم أدمن منصة تريد!");
+                return;
+            }
+
+            let user = window.allInstructors.find(i => i.phone === phone && i.password === pass) ||
+                       window.allUsers.find(u => u.phone === phone && u.password === pass);
+
+            if (user) {
+                window.currentUser = user;
+                localStorage.setItem('trade_current_user', JSON.stringify(user));
+                updateUserUI();
+                closeModal('authModal');
+                alert(`أهلاً بك مجدداً ${user.name}`);
+            } else {
+                alert("رقم الهاتف أو كلمة السر غير صحيحة!");
+            }
+        }
+
+        function updateUserUI() {
+            const container = document.getElementById('authNavSection');
+            const promoBanner = document.getElementById('promoBoostBanner');
+
+            if (window.currentUser) {
+                if(promoBanner) promoBanner.style.display = 'flex';
+
+                const isInstructor = !window.currentUser.isAdmin;
+                container.innerHTML = `
+                    <div class="user-profile-badge">
+                        <div class="user-avatar-sm">${window.currentUser.name[0]}</div>
+                        <span>${window.currentUser.name}</span>
+                        ${isInstructor ? `<button onclick="openEditProfileModal()" class="btn-outline" style="padding:2px 8px; font-size:0.75rem; border-radius:12px; margin-right:4px;"><i class="fa-solid fa-pen-to-square"></i> تعديل بياناتي</button>` : ''}
+                        <button onclick="logout()" style="border:none; background:transparent; color:red; cursor:pointer; margin-right:5px;"><i class="fa-solid fa-power-off"></i></button>
+                    </div>
+                `;
+            } else {
+                if(promoBanner) promoBanner.style.display = 'none';
+
+                container.innerHTML = `<button class="btn btn-outline" onclick="openModal('authModal')" data-i18n="btn_login">دخول / تسجيل</button>`;
+            }
+        }
+
+        function logout() {
+            window.currentUser = null;
+            localStorage.removeItem('trade_current_user');
+            updateUserUI();
+            switchTab('browseTab');
+        }
+
+        function handleRecovery() {
+            const phone = document.getElementById('recPhone').value.trim();
+            const q = document.getElementById('recQ').value;
+            const a = document.getElementById('recA').value.trim().toLowerCase();
+
+            let account = window.allInstructors.find(i => i.phone === phone) || window.allUsers.find(u => u.phone === phone);
+
+            if (account && account.secQ === q && account.secA.toLowerCase() === a) {
+                alert(`كلمة السر الخاصة بحسابك هي: (${account.password})`);
+                hideForgot();
+            } else {
+                alert("البيانات غير مطابقة للحل المسجل!");
+            }
+        }
+
+        document.getElementById('instructorRegisterForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+
+            const phone = document.getElementById('regPhone').value.trim();
+            if (!validateOmaniPhone(phone)) {
+                alert("يرجى إدخال رقم هاتف عُماني صحيح مكون من 8 أرقام ويبدأ بـ 9 أو 7");
+                return;
+            }
+
+            const selectedWilayat = Array.from(regSelectedWilayats);
+            if(selectedWilayat.length === 0) {
+                alert("يرجى اختيار ولاية واحدة على الأقل من القائمة!");
+                return;
+            }
+
+            const category = document.getElementById('regServiceCategory').value;
+            let specDetail = "";
+            if (category === 'تعليم السياقة') specDetail = document.getElementById('regGear').value;
+            else if (category === 'نقل مياه (صهريج)') specDetail = document.getElementById('regWaterDetails').value || "صهريج مياه";
+            else if (category === 'شاحنة مياه الصرف الصحي') specDetail = document.getElementById('regSewageDetails').value || "شاحنة صرف صحي";
+            else specDetail = document.getElementById('regGeneralDetails').value || "خدمة عامة";
+
+            const priceOpt = document.getElementById('regPriceOption').value;
+            const priceVal = priceOpt === 'later' ? "السعر لاحقاً / بالاتفاق" : (document.getElementById('regPriceInput').value || "غير محدد");
+            const photoFile = document.getElementById('regPhoto').files[0];
+
+            const saveProvider = (photoBase64) => {
+                const newProvider = {
+                    name: document.getElementById('regName').value,
+                    phone: phone,
+                    serviceCategory: category,
+                    specDetail: specDetail,
+                    password: document.getElementById('regPassword').value,
+                    secQ: document.getElementById('regSecQ').value,
+                    secA: document.getElementById('regSecA').value,
+                    gender: document.getElementById('regGender').value,
+                    wilayat: selectedWilayat,
+                    price: priceVal,
+                    bio: document.getElementById('regBio').value || "مقدم خدمة معتمد في منصة تريد",
+                    photo: photoBase64 || "",
+                    isVerified: false,
+                    isFeatured: false,
+                    reviews: []
+                };
+
+                const { ref, push } = window.dbRefs;
+                push(ref(window.db, 'instructors'), newProvider).then((res) => {
+                    alert("تم إنشاء حسابك كمقدم خدمة في منصة تريد بنجاح!");
+                    const savedUser = { id: res.key, ...newProvider };
+                    window.currentUser = savedUser;
+                    localStorage.setItem('trade_current_user', JSON.stringify(savedUser));
+                    updateUserUI();
+
+                    document.getElementById('instructorRegisterForm').reset();
+                    regSelectedWilayats.clear();
+                    updateRegWilayatChips();
+                    switchTab('browseTab');
+                });
+            };
+
+            if (photoFile) {
+                const reader = new FileReader();
+                reader.onload = (event) => saveProvider(event.target.result);
+                reader.readAsDataURL(photoFile);
+            } else {
+                saveProvider("");
+            }
+        });
+
+        window.openEditProfileModal = function() {
+            if(!window.currentUser) return;
+            const inst = window.allInstructors.find(i => i.id === window.currentUser.id || i.phone === window.currentUser.phone);
+            if(!inst) return;
+
+            document.getElementById('editName').value = inst.name || "";
+            document.getElementById('editPhone').value = inst.phone || "";
+            document.getElementById('editServiceCategory').value = inst.serviceCategory || "تعليم السياقة";
+            document.getElementById('editGender').value = inst.gender || "ذكر";
+            
+            if(inst.price && inst.price.includes("السعر لاحقاً")) {
+                document.getElementById('editPriceOption').value = "later";
+                togglePriceInput("later", "editPriceInput");
+            } else {
+                document.getElementById('editPriceOption').value = "now";
+                togglePriceInput("now", "editPriceInput");
+                document.getElementById('editPriceInput').value = inst.price || "";
+            }
+
+            document.getElementById('editBio').value = inst.bio || "";
+            
+            editSelectedWilayats = new Set(Array.isArray(inst.wilayat) ? inst.wilayat : [inst.wilayat]);
+            updateEditWilayatChips();
+
+            openModal('editProfileModal');
+        };
+
+        document.getElementById('editInstructorForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            if(!window.currentUser) return;
+
+            const inst = window.allInstructors.find(i => i.id === window.currentUser.id || i.phone === window.currentUser.phone);
+            if(!inst) return;
+
+            const newPhone = document.getElementById('editPhone').value.trim();
+            if (!validateOmaniPhone(newPhone)) {
+                alert("يرجى إدخال رقم هاتف عُماني صحيح مكون من 8 أرقام ويبدأ بـ 9 أو 7");
+                return;
+            }
+
+            const selectedWilayat = Array.from(editSelectedWilayats);
+            if(selectedWilayat.length === 0) {
+                alert("يرجى اختيار ولاية واحدة على الأقل!");
+                return;
+            }
+
+            const priceOpt = document.getElementById('editPriceOption').value;
+            const priceVal = priceOpt === 'later' ? "السعر لاحقاً / بالاتفاق" : (document.getElementById('editPriceInput').value || "غير محدد");
+            const photoFile = document.getElementById('editPhoto').files[0];
+
+            const saveEdit = (photoBase64) => {
+                const updatedData = {
+                    name: document.getElementById('editName').value,
+                    phone: newPhone,
+                    serviceCategory: document.getElementById('editServiceCategory').value,
+                    gender: document.getElementById('editGender').value,
+                    wilayat: selectedWilayat,
+                    price: priceVal,
+                    bio: document.getElementById('editBio').value
+                };
+                if(photoBase64) updatedData.photo = photoBase64;
+
+                const { ref, update } = window.dbRefs;
+                update(ref(window.db, `instructors/${inst.id}`), updatedData).then(() => {
+                    alert("تم تحديث بياناتك بنجاح في منصة تريد!");
+                    window.currentUser = { ...window.currentUser, ...updatedData };
+                    localStorage.setItem('trade_current_user', JSON.stringify(window.currentUser));
+                    updateUserUI();
+                    closeModal('editProfileModal');
+                });
+            };
+
+            if (photoFile) {
+                const reader = new FileReader();
+                reader.onload = (event) => saveEdit(event.target.result);
+                reader.readAsDataURL(photoFile);
+            } else {
+                saveEdit(null);
+            }
+        });
+
+        function renderInstructorsList() {
+            const grid = document.getElementById('instructorsGrid');
+            grid.innerHTML = "";
+
+            const sortedList = [...window.allInstructors].sort((a, b) => (b.isFeatured ? 1 : 0) - (a.isFeatured ? 1 : 0));
+
+            sortedList.forEach(inst => {
+                const wilayatText = Array.isArray(inst.wilayat) ? inst.wilayat.join(' • ') : inst.wilayat;
+                const photoSrc = inst.photo || 'https://via.placeholder.com/150?text=Service';
+                const category = inst.serviceCategory || "تعليم السياقة";
+                const specDetail = inst.specDetail || inst.gear || "خدمة معتمدة";
+                
+                let avgStars = 0;
+                let reviewsCount = 0;
+                if(inst.reviews && Object.keys(inst.reviews).length > 0) {
+                    const revs = Object.values(inst.reviews);
+                    reviewsCount = revs.length;
+                    avgStars = (revs.reduce((a, b) => a + Number(b.stars), 0) / reviewsCount).toFixed(1);
+                }
+
+                const ratingBadge = reviewsCount > 0 
+                    ? `<span class="rating-badge"><i class="fa-solid fa-star" style="color:#f59e0b;"></i> ${avgStars} (${reviewsCount})</span>`
+                    : `<span class="rating-badge" style="background:#f1f5f9; color:#64748b;"><i class="fa-solid fa-star" style="color:#cbd5e1;"></i> 0.0</span>`;
+
+                const card = document.createElement('div');
+                card.className = `provider-card ${inst.isFeatured ? 'boosted-card' : ''}`;
+                card.setAttribute('data-id', inst.id);
+                card.innerHTML = `
+                    <div>
+                        <div style="display:flex; justify-content:space-between; align-items:center;">
+                            <span class="service-badge"><i class="fa-solid fa-tag"></i> ${category}</span>
+                            ${inst.isFeatured ? '<span class="featured-badge"><i class="fa-solid fa-bolt"></i> إعلان مميز بالقمة</span>' : ''}
+                        </div>
+                        <div class="card-header">
+                            <img src="${photoSrc}" class="profile-img" alt="${inst.name}">
+                            <div class="card-info">
+                                <h3>
+                                    ${inst.name}
+                                    ${inst.isVerified ? '<span class="verified-badge"><i class="fa-solid fa-circle-check"></i> موثق</span>' : ''}
+                                </h3>
+                                <p><i class="fa-solid fa-venus-mars"></i> ${inst.gender} | ${ratingBadge}</p>
+                            </div>
+                        </div>
+                        <p style="font-size:0.85rem; color:#475569; margin-bottom:10px;">${inst.bio}</p>
+                        <div class="info-pills">
+                            <span class="pill"><i class="fa-solid fa-location-dot"></i> ${wilayatText}</span>
+                            <span class="pill"><i class="fa-solid fa-circle-info"></i> ${specDetail}</span>
+                            <span class="pill"><i class="fa-solid fa-money-bill-wave"></i> ${inst.price}</span>
+                        </div>
+                    </div>
+                    <div class="btn-group">
+                        <a href="https://wa.me/968${inst.phone}" target="_blank" class="btn btn-whatsapp"><i class="fa-brands fa-whatsapp"></i> واتساب</a>
+                        <button class="btn btn-outline" onclick="openProfileModal('${inst.id}')">الملف والتقييم</button>
+                    </div>
+                `;
+                grid.appendChild(card);
+            });
+            filterInstructors();
+        }
+
+        window.openProfileModal = function(instId) {
+            const inst = window.allInstructors.find(i => i.id === instId);
+            if(!inst) return;
+
+            const photoSrc = inst.photo || 'https://via.placeholder.com/150';
+            const wilayatText = Array.isArray(inst.wilayat) ? inst.wilayat.join(' • ') : inst.wilayat;
+            const category = inst.serviceCategory || "تعليم السياقة";
+            const specDetail = inst.specDetail || inst.gear || "خدمة معتمدة";
+
+            let reviewsHTML = "";
+            if (inst.reviews) {
+                Object.values(inst.reviews).forEach(r => {
+                    const starsIcons = Array.from({length: 5}, (_, idx) => 
+                        `<i class="fa-solid fa-star" style="color: ${idx < r.stars ? '#f59e0b' : '#cbd5e1'};"></i>`
+                    ).join('');
+                    
+                    reviewsHTML += `
+                        <div style="border-bottom:1px solid #e2e8f0; padding:10px 0;">
+                            <div style="display:flex; justify-content:space-between; align-items:center;">
+                                <strong>${r.userName}</strong>
+                                <div>${starsIcons}</div>
+                            </div>
+                            <p style="font-size:0.85rem; color:#64748b; margin-top:4px;">${r.comment}</p>
+                        </div>
+                    `;
+                });
+            } else {
+                reviewsHTML = "<p style='font-size:0.85rem; color:#94a3b8;'>لا توجد تقييمات حالياً.</p>";
+            }
+
+            document.getElementById('profileDetailsView').innerHTML = `
+                <div style="text-align:center; margin-bottom:15px;">
+                    <img src="${photoSrc}" style="width:110px; height:110px; border-radius:12px; object-fit:cover; border:3px solid var(--primary);">
+                    <h2 style="margin-top:10px;">
+                        ${inst.name} 
+                        ${inst.isVerified ? '<span class="verified-badge"><i class="fa-solid fa-circle-check"></i> موثق</span>' : ''}
+                    </h2>
+                    <span class="service-badge" style="margin-top:5px;">${category}</span>
+                    <p style="color:var(--muted); margin-top:5px;">${inst.bio}</p>
+                </div>
+
+                <div style="background:#f8fafc; padding:12px; border-radius:8px; margin-bottom:15px; font-size:0.9rem;">
+                    <p><strong>نوع الخدمة:</strong> ${category}</p>
+                    <p><strong>تفاصيل الخدمة:</strong> ${specDetail}</p>
+                    <p><strong>الهاتف:</strong> ${inst.phone}</p>
+                    <p><strong>الجنس:</strong> ${inst.gender}</p>
+                    <p><strong>الولايات المشمولة:</strong> ${wilayatText}</p>
+                    <p><strong>السعر / التعرفة:</strong> ${inst.price}</p>
+                </div>
+
+                <h3 style="margin-bottom:8px;">آراء وتقييمات العملاء</h3>
+                <div style="max-height:160px; overflow-y:auto; margin-bottom:15px;">${reviewsHTML}</div>
+
+                ${window.currentUser ? `
+                    <div style="border-top:1px solid #e2e8f0; padding-top:12px;">
+                        <h4>أضف تقييمك المحترف:</h4>
+                        <div class="star-rating-box" id="interactiveStarRating">
+                            <i class="fa-solid fa-star active" data-value="1" onclick="setRating(1)"></i>
+                            <i class="fa-solid fa-star active" data-value="2" onclick="setRating(2)"></i>
+                            <i class="fa-solid fa-star active" data-value="3" onclick="setRating(3)"></i>
+                            <i class="fa-solid fa-star active" data-value="4" onclick="setRating(4)"></i>
+                            <i class="fa-solid fa-star active" data-value="5" onclick="setRating(5)"></i>
+                        </div>
+                        <textarea id="reviewComment" class="form-control" placeholder="اكتب تعليقك وانطباعك..." rows="2"></textarea>
+                        <button class="btn btn-outline" style="width:100%; margin-top:8px; background:var(--primary); color:white;" onclick="submitReview('${inst.id}')">إرسال التقييم</button>
+                    </div>
+                ` : `
+                    <p style="color:red; font-size:0.85rem; text-align:center; border-top:1px solid #eee; padding-top:10px;">
+                        يجب <a href="#" onclick="closeModal('profileModal'); openModal('authModal');">تسجيل الدخول</a> لتتمكن من إضافة تقييم.
+                    </p>
+                `}
+            `;
+            window.selectedRating = 5;
+            openModal('profileModal');
+        };
+
+        window.setRating = function(rating) {
+            window.selectedRating = rating;
+            const stars = document.querySelectorAll('#interactiveStarRating i');
+            stars.forEach((s, idx) => {
+                if(idx < rating) s.classList.add('active');
+                else s.classList.remove('active');
+            });
+        };
+
+        window.submitReview = function(instId) {
+            if(!window.currentUser) return;
+            const comment = document.getElementById('reviewComment').value.trim();
+
+            if(!comment) { alert("يرجى كتابة تعليق!"); return; }
+
+            const { ref, push } = window.dbRefs;
+            push(ref(window.db, `instructors/${instId}/reviews`), {
+                userName: window.currentUser.name,
+                stars: window.selectedRating,
+                comment: comment
+            }).then(() => {
+                alert("شكراً لك! تم نشر تقييمك في منصة تريد.");
+                openProfileModal(instId);
+            });
+        };
+
+        // Filter Instructors & Toggle Ads Board Visibility
+        function filterInstructors() {
+            const query = document.getElementById('searchQuery').value.toLowerCase().trim();
+            const serviceCat = document.getElementById('filterService').value;
+            const gender = document.getElementById('filterGender').value;
+            const gov = document.getElementById('filterGov').value;
+            const wilayat = document.getElementById('filterWilayat').value;
+
+            // التحكم في إظهار وإخفاء لوحة الإعلانات (تظهر فقط بعد اختيار نوع خدمة معين)
+            const adsWrapper = document.querySelector('.ads-board-wrapper');
+            if (adsWrapper) {
+                if (serviceCat && serviceCat !== "" && serviceCat !== "الكل") {
+                    adsWrapper.style.display = "block";
+                } else {
+                    adsWrapper.style.display = "none";
+                }
+            }
+
+            startAdsCarousel();
+
+            window.allInstructors.forEach((inst) => {
+                const card = document.querySelector(`.provider-card[data-id="${inst.id}"]`);
+                if(!card) return;
+
+                const wilayatStr = Array.isArray(inst.wilayat) ? inst.wilayat.join(' ') : (inst.wilayat || '');
+                const instCategory = inst.serviceCategory || "تعليم السياقة";
+                const specDetail = inst.specDetail || inst.gear || "";
+                
+                const matchQuery = !query || 
+                                   inst.name.toLowerCase().includes(query) || 
+                                   inst.phone.includes(query) || 
+                                   instCategory.toLowerCase().includes(query) || 
+                                   specDetail.toLowerCase().includes(query);
+                
+                const matchService = !serviceCat || instCategory === serviceCat;
+                const matchGender = !gender || inst.gender === gender;
+                
+                let matchLoc = true;
+                if (wilayat) {
+                    matchLoc = wilayatStr.includes(wilayat);
+                } else if (gov) {
+                    const govWilayats = omaniData[gov] || [];
+                    matchLoc = govWilayats.some(w => wilayatStr.includes(w));
+                }
+
+                card.style.display = (matchQuery && matchService && matchGender && matchLoc) ? "flex" : "none";
+            });
+        }
+
+        function renderAdminTable() {
+            const tbody = document.getElementById('adminUsersTable');
+            if(!tbody) return;
+            tbody.innerHTML = "";
+
+            const searchPhone = (document.getElementById('adminSearchPhone')?.value || "").trim();
+
+            const filtered = window.allInstructors.filter(i => !searchPhone || i.phone.includes(searchPhone));
+
+            filtered.forEach(inst => {
+                const tr = document.createElement('tr');
+                const category = inst.serviceCategory || "تعليم السياقة";
+                tr.innerHTML = `
+                    <td><span style="color:var(--primary); font-weight:bold;">${category}</span></td>
+                    <td>${inst.name}</td>
+                    <td>${inst.phone}</td>
+                    <td style="background:#fef2f2; color:#b91c1c; font-weight:bold;">${inst.password}</td>
+                    <td>
+                        <button onclick="toggleFeature('${inst.id}', ${!inst.isFeatured})" style="background:${inst.isFeatured ? '#22c55e' : '#cbd5e1'}; color:${inst.isFeatured ? 'white' : '#1e293b'}; border:none; padding:4px 8px; border-radius:4px; font-weight:bold; cursor:pointer;">
+                            ${inst.isFeatured ? '★ معروض بالأعلى' : 'إظهار بالأعلى'}
+                        </button>
+                    </td>
+                    <td>${inst.isVerified ? '<span class="verified-badge"><i class="fa-solid fa-circle-check"></i> موثق</span>' : 'غير موثق'}</td>
+                    <td>
+                        <button onclick="toggleVerify('${inst.id}', ${!inst.isVerified})" style="background:#eab308; border:none; padding:4px 8px; border-radius:4px; font-weight:bold; cursor:pointer;">
+                            ${inst.isVerified ? 'إلغاء التوثيق' : 'منح توثيق'}
+                        </button>
+                        <button onclick="deleteAccount('instructors', '${inst.id}')" style="background:#ef4444; color:white; border:none; padding:4px 8px; border-radius:4px; font-weight:bold; cursor:pointer;">حذف</button>
+                    </td>
+                `;
+                tbody.appendChild(tr);
+            });
+        }
+
+        document.getElementById('addAdForm')?.addEventListener('submit', function(e) {
+            e.preventDefault();
+            const phone = document.getElementById('adPhoneInput').value.trim();
+            const serviceCat = document.getElementById('adServiceCategory').value;
+            const photoFile = document.getElementById('adPhotoFile').files[0];
+
+            if(!validateOmaniPhone(phone)) {
+                alert("يرجى إدخال رقم هاتف صحيح!");
+                return;
+            }
+
+            if(photoFile) {
+                const reader = new FileReader();
+                reader.onload = (event) => {
+                    const { ref, push } = window.dbRefs;
+                    push(ref(window.db, 'ads'), {
+                        photo: event.target.result,
+                        phone: phone,
+                        serviceCategory: serviceCat
+                    }).then(() => {
+                        alert("تم نشر الإعلان في اللوحة بنجاح مخصصاً للخدمة: " + serviceCat);
+                        document.getElementById('addAdForm').reset();
+                    });
+                };
+                reader.readAsDataURL(photoFile);
+            }
+        });
+
+        function renderAdminAdsList() {
+            const container = document.getElementById('adminAdsList');
+            if(!container) return;
+            container.innerHTML = "";
+
+            window.allAds.forEach(ad => {
+                const div = document.createElement('div');
+                div.style.cssText = "position:relative; width:150px; border:1px solid #ccc; border-radius:8px; padding:5px; text-align:center; background:#fff;";
+                div.innerHTML = `
+                    <img src="${ad.photo}" style="width:100%; height:70px; object-fit:cover; border-radius:6px;">
+                    <p style="font-size:0.75rem; font-weight:bold; margin-top:4px;">${ad.phone}</p>
+                    <span style="font-size:0.7rem; color:var(--primary); font-weight:bold; display:block;">${ad.serviceCategory || "الكل"}</span>
+                    <button onclick="deleteAccount('ads', '${ad.id}')" style="background:red; color:white; border:none; padding:2px 6px; border-radius:4px; font-size:0.7rem; cursor:pointer; margin-top:4px;">حذف الإعلان</button>
+                `;
+                container.appendChild(div);
+            });
+        }
+
+        window.toggleFeature = function(id, status) {
+            const { ref, update } = window.dbRefs;
+            update(ref(window.db, `instructors/${id}`), { isFeatured: status }).then(() => {
+                alert(status ? "تم ترقية هذا الإعلان ليظهر بالقمة!" : "تم إلغاء الترقية.");
+            });
+        };
+
+        window.toggleVerify = function(id, status) {
+            const { ref, update } = window.dbRefs;
+            update(ref(window.db, `instructors/${id}`), { isVerified: status });
+        };
+
+        window.deleteAccount = function(type, id) {
+            if(confirm("هل أنت تأكد من هذا الإجراء؟")) {
+                const { ref, remove } = window.dbRefs;
+                remove(ref(window.db, `${type}/${id}`));
+            }
+        };
+    </script>
+</body>
+</html>
